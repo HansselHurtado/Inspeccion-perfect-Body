@@ -3,10 +3,10 @@
 @section('content')
 @include('estados/mensaje')
 
-    <div class="card shadow mb-4">
+    <div class="card shadow mb-4 row">
         <div class="card-header py-3">
             <h3 class="m-0 font-weight-bold text-primary">Inspeccionar Componenetes</h3><hr>
-        <h5 class="m-0 font-weight-bold text-primary">{{$rooms->name}} - {{$floors_name[0]->piso}}</h5>
+        <h5 class="m-0 font-weight-bold text-primary">{{$rooms->name}} - {{$floors[0]->piso}}</h5>
 
         </div>
         <div class="card-body">
@@ -30,44 +30,57 @@
                 </div>
             </div>
         </div>
+        
     </div>
     
   <!-- Modal -->
     <div class="modal fade" id="ModalComponent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-        
-            <div class="modal-content">
-                <div class="modal-header bg-blue">
-                    <h4 class="modal-title" id="componente"></h4>                    
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>       
-                </div>
-                <div class="modal-header bg-blue">
-                    <h6 class="modal-title" id="habitacion">{{$rooms->name}}</h6>      
-                </div>
-                <div class="modal-body">
-                    <form action="">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th id="th1">#</th>
-                                <th id="elemento">Elemento</th>                                
-                                <th id="estados">Tiene</th>                                
-                                <th id="observaciones" style="text-align: center;" >Observaciones</th>                        
-                            </tr>
-                            </thead>
-                            <tbody id="contenido"> 
+            <form id="formulario" method="POST" action="{{ route('registroReporte')}}">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header bg-blue">
+                        <h4 class="modal-title" id="componente"></h4>                    
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>       
+                    </div>
+                    <div class="modal-header bg-blue">
+                        <h6 class="modal-title" id="habitacion"> 
+                            <input style="display: none;" name="floor_id" value="{{$floors[0]->floor_id}}" type="text">
 
-                            </tbody>
-                        </table>
-                    </form>
+                            <input style="display: none;" name="room_id" value="{{$rooms->room_id}}" type="text">
+                            {{$rooms->name}}
+                        </h6>      
+                    </div>
+                    <div id="conte">
+                        <div id="contenidoo" class="modal-body">
+                            <div id="table">
+                                <table  class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th id="th1">#</th>
+                                        <th id="elemento">Elemento</th>                                
+                                        <th id="estados">Tiene</th>                                
+                                        <th id="observaciones" style="text-align: center;" >Observaciones</th>                        
+                                    </tr>
+                                    </thead>
+                                    <tbody id="contenido"> 
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <div id="guardar">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>            
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 

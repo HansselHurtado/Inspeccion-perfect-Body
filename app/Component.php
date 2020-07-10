@@ -22,6 +22,8 @@ class Component extends Model
         return $this->belongsTo('App\ComponentPrime','component_prime_id');
     }
 
-    
-
+    public function registro()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\Registro','component_id');
+    }
 }

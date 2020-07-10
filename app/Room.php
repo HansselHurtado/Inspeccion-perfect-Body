@@ -20,4 +20,9 @@ class Room extends Model
     {
         return $this->belongsTo('App\Floor');
     }
+
+    public function registro()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\Registro', 'room_id');
+    }
 }

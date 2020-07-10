@@ -93,7 +93,6 @@ class HomeController extends Controller
                     ->select('users.user_id','users.name','users.email','roles.name as role')
                     ->orderBy('users.user_id')
                     ->paginate(5);
-
         return view('auth/verusuarios',compact('user'));
         
     }

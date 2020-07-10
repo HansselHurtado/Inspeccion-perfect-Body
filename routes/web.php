@@ -39,22 +39,15 @@ Route::group(['namespace' => 'Auth'], function () {
     //autenticacion
     Route::post('login', 'LoginController@login'); 
     Route::post('logout', 'LoginController@logout');
-    
-    //regitrso de usuario
-    //Route::get('registro','RegisterController@registerUser')->name('registro');
-    
-    //Route::post('registro','RegisterController@registroNuevo')->name('registro');
-
-
 });
 Auth::routes();
-//Route::post('/registro','Auth\RegisterController@registroNuevo')->name('registrar');
-
 
 //ruta de inspeccion
 Route::get('/inspeccion','inspectionController@index')->name('inspeccion');
 Route::get('/inspeccion/inspeccionar/{room_id}','inspectionController@componentInspetion')->name('inspeccionComponentes');
-Route::get('/inspeccion/inspeccionar/componente/{room_id}','inspectionController@seeInspection')->name('inspeccionarHabitacion');
+Route::post('/inspeccion/inspeccionar','inspectionController@registro')->name('registroReporte');
+Route::get('/inspeccion/registros','inspectionController@verRegistro')->name('registros');
+Route::get('/inspeccion/registros/{floor_id}','inspectionController@revisarRegistroxPiso')->name('revisarRegistroxPiso');
 
 
 //ruta de ver y crear pisos

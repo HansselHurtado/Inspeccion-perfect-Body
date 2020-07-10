@@ -32,11 +32,11 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="home">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home')}}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Perfect Body <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">Perfect Body</div>
       </a>
 
       <!-- Divider -->
@@ -116,6 +116,12 @@
         </li>
       @endif
 
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('registros')}}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Registros de Inspecciones</span></a>
+      </li>
       <!-- Nav Item - Charts -->
       <li class="nav-item">
         <a class="nav-link" href="charts.html">
@@ -123,12 +129,8 @@
           <span>Estadisticas</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tablas</span></a>
-      </li>
+      
+      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -310,7 +312,7 @@
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                   <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Perfil
+                    <strong>{{ auth()->user()->name }}</strong>
                   </a>
                   <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>

@@ -24,7 +24,5 @@ Route::get('/pisos/{id}/habitaciones', 'RoomController@byFloor');
 Route::get('/floor/{id}/habitaciones', 'RoomController@InpectionFloor');
 
 
-//
-
 //para los componentes
 Route::get('/habitaciones/{room_id}/inspeccionar/{component_prime_id}', 'inspectionController@InspeccionarHabitacion');

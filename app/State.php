@@ -14,4 +14,9 @@ class State extends Model
     {
         return $this->belongsTo('App\ComponentPrime');
     }
+
+    public function registro()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\Registro','state_id');
+    }
 }

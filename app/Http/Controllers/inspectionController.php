@@ -9,6 +9,9 @@ use App\ComponentPrime;
 use App\Component;
 use App\Floor;
 use App\Room;
+use App\Registro;
+
+use Illuminate\Http\Requestinput;
 
 
 class inspectionController extends Controller
@@ -37,28 +40,15 @@ class inspectionController extends Controller
         $rooms = Room::findOrFail($room_id);
         $component_primes = ComponentPrime::all();
         $states = State::all();
-        $floors_name =DB::table('rooms')
+        $floors = DB::table('rooms')
                 ->join('floors','rooms.floor_id','=','floors.floor_id')
-                ->select('floors.name as piso')
-                ->where('room_id','=',$room_id)
+                ->select('floors.floor_id','floors.name as piso')
+                ->where('rooms.room_id','=',$room_id)
                 ->get();
         
-        return view('inspection/inspeccionComponent',compact('component_primes','rooms','floors_name','states'));
+        return view('inspection/inspeccionComponent',compact('component_primes','rooms','floors','states'));
 
     }
-
-    /*public static function seeInspection($component_prime_id){
-         
-        return $component_prime_id;
-        $rooms = Room::with(array('component'=>function($element){
-            $element->with(array('component_prime'=>function($component_prime){
-                $component_prime->with('state');
-            }));
-        }))->where('room_id',$room_id)->get();
-        
-        return $rooms;
-        //return view('inspection/inspeccionar',compact('rooms'));
-    }*/
 
     public function InspeccionarHabitacion($room_id, $component_prime_id){       
 
@@ -77,10 +67,57 @@ class inspectionController extends Controller
             }]);
         }))->where('room_id',$room_id)->get();*/
         
-       
         return response()->json($prime);
-        //return response()->json($rooms);
+    }
 
+    public function registro(Request $request){
+        
+        for ($i=1; $i<=$request->input("variable"); $i++){ 
+            
+            $registro = new Registro();
+            $registro->floor_id = $request->input("floor_id");
+            $registro->room_id = $request->input("room_id");
+            $registro->component_prime_id = $request->input("component_prime_id");
+            $registro->component_id = $request->input("component_id$i");
+            $registro->state_id = $request->input("state$i");
+            $registro->observaciones = $request->input("observaciones$i");
+            $registro->save();         
+        }
+        return redirect()->back();       
+    }
+
+    public function verRegistro(){
+        $registros = Registro::all();
+        $floors = Floor::all();
+        return view('inspection/registroInspeccion',compact('registros','floors'));        
+    }
+
+    public function revisarRegistroxPiso($floor_id){
+
+        
+        $rooms = Room::with('registro')->where('floor_id',$floor_id)->get();
+       
+        $registros = DB::table('registros')
+                ->join('floors','registros.floor_id','=','floors.floor_id')
+                ->join('rooms','registros.room_id','=','rooms.room_id')
+                ->join('component_primes','registros.component_prime_id','=','component_primes.component_prime_id')
+                ->join('components','registros.component_id','=','components.component_id')
+                ->join('states','registros.state_id','=','states.state_id')
+                ->select('registros.id_registro','floors.name as nombrePiso',
+                        'rooms.room_id','rooms.name as nombreHabitacion','component_primes.component_prime_id','component_primes.name as NombreComponente',
+                        'components.name as nombreElemento','states.name as nombreEstado',
+                        'registros.observaciones')
+                ->orderBy('rooms.room_id')
+                ->orderBy('component_primes.component_prime_id')
+                ->where('registros.floor_id','=',$floor_id)
+                ->get();
+        
+        $variable = Room::with('floor')->where('floor_id',$floor_id)->count();
+        
+        //return $rooms;
+       // return $registros[1]->registro[0]->id_registro;
+
+        return view('inspection/revisarRegistroxPiso',compact('registros','rooms','variable'));        
 
     }
 }

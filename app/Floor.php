@@ -13,4 +13,9 @@ class Floor extends Model
     {
         return $this->hasMany('App\Room','floor_id');
     }
+
+    public function registro()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\Registro','floor_id');
+    }
 }

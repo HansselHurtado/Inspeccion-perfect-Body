@@ -17,11 +17,17 @@ class FloorController extends Controller
 
     public function create(Request $request){
 
+        $Validate_floors = Floor::all();
         $floor = new Floor();
+
         $floor->name = $request->name;
         $floor->descripcion = $request->description;
+        foreach ($Validate_floors as $Validate_floor) {
+            if($request->name == $Validate_floor->name){
+                return redirect()->back()->with('message6','El Piso que intenta crear, ya ha sido creado');
+            }
+        }
         $floor->save();
-
         return redirect()->back()->with('message','Piso creado correctamente');
     }
 
