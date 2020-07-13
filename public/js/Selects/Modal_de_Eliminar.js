@@ -1,3 +1,4 @@
+var ip = '192.168.1.14:8000';
 
 function EliminarHabitacion(room_id, room_name){
 
@@ -6,7 +7,7 @@ function EliminarHabitacion(room_id, room_name){
     document.getElementById('habitacion').innerHTML= room_name;
 
     var formulario = document.getElementById('formulario');
-    formulario.setAttribute('action', 'http://192.168.1.22:8000/Ver-Habitaciones/eliminar/'+room_id)
+    formulario.setAttribute('action', 'http://'+ip+'/Ver-Habitaciones/eliminar/'+room_id)
 }
 
 function EliminarPiso(floor_id, floor_name){
@@ -16,7 +17,7 @@ function EliminarPiso(floor_id, floor_name){
     document.getElementById('piso').innerHTML= floor_name;
 
     var formulario = document.getElementById('formulario');
-    formulario.setAttribute('action', 'http://192.168.1.22:8000/Ver-Piso/eliminar/'+floor_id)
+    formulario.setAttribute('action', 'http://'+ip+'/Ver-Piso/eliminar/'+floor_id)
 }
 
 function EliminarUser(user_id, user_name){
@@ -27,6 +28,6 @@ function EliminarUser(user_id, user_name){
     document.getElementById('usuario_name').innerHTML= user_name;
 
     var formulario = document.getElementById('formulario');
-    formulario.setAttribute('action', 'http://192.168.1.22:8000/ver-usuarios/eliminar/'+user_id)
+    formulario.setAttribute('action', 'http://'+ip+'/ver-usuarios/eliminar/'+user_id)
     
 }

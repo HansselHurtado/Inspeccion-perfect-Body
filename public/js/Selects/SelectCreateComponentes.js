@@ -1,10 +1,11 @@
 //funcion para poder mandar los select dinamicamente
+var ip = '192.168.1.14:8000';
 
 $(function() {
 
     $('#select-floor').on('change', onSelectFloorChange);
     $('#floor-select').on('change', FloorChange);//mostrar en la inspeccion todas las habitaciones
-
+    $('#estados').on('change', StateChange);//mostrar los registros malos o buenos
 
 });
 
@@ -35,7 +36,7 @@ function FloorChange(){
     var floor_id = $(this).val();
     
     if(floor_id == 0){
-        window.location.href='http://192.168.1.22:8000/inspeccion?page=1';
+        window.location.href='http://'+ip+'/inspeccion?page=1';
     }
 
     $.get('/api/floor/'+floor_id+'/habitaciones', function (data) {
@@ -56,7 +57,7 @@ function FloorChange(){
                 <td>${data[0].room[i].name}</td>
                 <td id="floor_name ">${floor_name}</td>
                 <td  style="text-align: center;" >
-                    <a href=http://192.168.1.22:8000/inspeccion/inspeccionar/${data[0].room[i].room_id} class="btn btn-info btn-icon-split">
+                    <a href=http://${ip}/inspeccion/inspeccionar/${data[0].room[i].room_id} class="btn btn-info btn-icon-split">
                         <span class="icon text-white-50">
                         <i class="fas fa-info-circle"></i>
                         </span>
@@ -64,11 +65,14 @@ function FloorChange(){
                     </a>
                 </td>      
             </tr> `;
-        }             
+        }           
 
     });
 
+}
 
+function StateChange(){
+    var state = $(this).val();
 }
 
 

@@ -17,13 +17,15 @@
             <thead>
               <tr>
                 <th>Piso</th>
-                <th style="text-align: center;" >Ver Inspeccion</th>            
+                <th style="text-align: center;" >Ver Inspeccion</th> 
+                <th style="text-align: center;" >Ver Inspecciones Malas</th>            
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th>Piso</th>
                 <th style="text-align: center;">Ver Inspeccion</th> 
+                <th style="text-align: center;" >Ver Inspecciones Malas</th>  
               </tr>
             </tfoot>
             <tbody id="tr">
@@ -31,13 +33,22 @@
               <tr >
                   <td>{{$floor->name}}</td>                 
                   <td  style="text-align: center;" >
-                      <a href={{route('revisarRegistroxPiso',$floor->floor_id)}} class="btn btn-info btn-icon-split">
-                          <span class="icon text-white-50">
-                          <i class="fas fa-info-circle"></i>
-                          </span>
-                          <span  class="text">Revisar</span>
-                      </a>
-                  </td>                     
+                    <a href={{route('revisarRegistroxPiso',$floor->floor_id)}} class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                        <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span  class="text">Revisar</span>
+                    </a>
+                  </td> 
+                  <td style="text-align: center;">
+                    <a href={{route('revisarRegistroxPisoMalas',$floor->floor_id)}} class="btn btn-warning btn-icon-split">
+                      <span class="icon text-white-50">
+                        <i class="fas fa-exclamation-triangle"></i>
+                      </span>
+                      <span class="text">Revisar</span>
+                    </a>
+                  </td>                 
+
               </tr>                
               @endforeach
             </tbody>

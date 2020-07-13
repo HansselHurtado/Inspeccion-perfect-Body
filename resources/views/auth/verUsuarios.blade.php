@@ -39,7 +39,7 @@
                   @foreach ($user as $users)
                   <tr>
                       <td>{{ $i }}</td>
-                      <td>{{$users->name}}</td>                   
+                      <td class="font-weight-bold text-primary"><a class="btn font-weight-bold text-primary"" href="">{{$users->name}}</a></td>                   
                       <td>{{$users->email}}</td>
                       <td>{{$users->role}}</td>   
                       <td style="text-align: center;">
@@ -53,10 +53,10 @@
                       </td>                            		
                       <td style="text-align: center;"> 
                         <button class="btn btn-danger btn-icon-split" onclick="EliminarUser('{{$users->user_id}}','{{$users->name}}');"data-toggle="modal" data-target="#verUsuario">
-                        <span class="icon text-white-50">
-                        <i class="fas fa-trash"></i>
-                        </span>
-                        <span class="text">Eliminar</span>                        
+                          <span class="icon text-white-50">
+                          <i class="fas fa-trash"></i>
+                          </span>
+                          <span class="text">Eliminar</span>                        
                         </button>
                       </td>                               
                     </tr> 

@@ -48,6 +48,8 @@ Route::get('/inspeccion/inspeccionar/{room_id}','inspectionController@componentI
 Route::post('/inspeccion/inspeccionar','inspectionController@registro')->name('registroReporte');
 Route::get('/inspeccion/registros','inspectionController@verRegistro')->name('registros');
 Route::get('/inspeccion/registros/{floor_id}','inspectionController@revisarRegistroxPiso')->name('revisarRegistroxPiso');
+Route::get('/inspeccion/registros/malas/{floor_id}','inspectionController@revisarRegistroxPisoMalas')->name('revisarRegistroxPisoMalas');
+
 
 
 //ruta de ver y crear pisos

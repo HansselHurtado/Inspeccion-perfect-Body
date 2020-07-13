@@ -10,6 +10,7 @@ use App\Component;
 use App\Floor;
 use App\Room;
 use App\Registro;
+use Carbon\Carbon;
 
 use Illuminate\Http\Requestinput;
 
@@ -93,31 +94,59 @@ class inspectionController extends Controller
     }
 
     public function revisarRegistroxPiso($floor_id){
-
         
         $rooms = Room::with('registro')->where('floor_id',$floor_id)->get();
+        $date = Carbon::now();
+        //$date = $date->format('d-m-Y');
+        $date = $date->format('l jS \\of F Y');
        
         $registros = DB::table('registros')
-                ->join('floors','registros.floor_id','=','floors.floor_id')
-                ->join('rooms','registros.room_id','=','rooms.room_id')
-                ->join('component_primes','registros.component_prime_id','=','component_primes.component_prime_id')
-                ->join('components','registros.component_id','=','components.component_id')
-                ->join('states','registros.state_id','=','states.state_id')
-                ->select('registros.id_registro','floors.name as nombrePiso',
-                        'rooms.room_id','rooms.name as nombreHabitacion','component_primes.component_prime_id','component_primes.name as NombreComponente',
-                        'components.name as nombreElemento','states.name as nombreEstado',
-                        'registros.observaciones')
-                ->orderBy('rooms.room_id')
-                ->orderBy('component_primes.component_prime_id')
-                ->where('registros.floor_id','=',$floor_id)
-                ->get();
-        
-        $variable = Room::with('floor')->where('floor_id',$floor_id)->count();
-        
-        //return $rooms;
-       // return $registros[1]->registro[0]->id_registro;
+                    ->join('floors','registros.floor_id','=','floors.floor_id')
+                    ->join('rooms','registros.room_id','=','rooms.room_id')
+                    ->join('component_primes','registros.component_prime_id','=','component_primes.component_prime_id')
+                    ->join('components','registros.component_id','=','components.component_id')
+                    ->join('states','registros.state_id','=','states.state_id')
+                    ->select('registros.id_registro','registros.created_at','floors.name as nombrePiso',
+                            'rooms.room_id','rooms.name as nombreHabitacion','component_primes.component_prime_id','component_primes.name as NombreComponente',
+                            'components.name as nombreElemento','states.name as nombreEstado',
+                            'registros.observaciones')
+                    ->orderBy('rooms.room_id')
+                    ->orderBy('component_primes.component_prime_id')
+                    ->where('registros.floor_id','=',$floor_id)
+                    ->get();
 
-        return view('inspection/revisarRegistroxPiso',compact('registros','rooms','variable'));        
+               
+        
+        //return $registros;
+        //$variable = Room::with('floor')->where('floor_id',$floor_id)->count();
+
+        return view('inspection/revisarRegistroxPiso',compact('registros','rooms','date'));        
 
     }
+
+    public function revisarRegistroxPisoMalas($floor_id){
+        
+        $rooms = Room::with(array('registro' => function($q){
+            $q->where('registros.state_id',2)->orWhere('registros.state_id',5)->orWhere('registros.state_id',8);
+        }))->where('floor_id',$floor_id)->get();
+       
+        $registros = Room::with(array('registro' => function($q){
+            $q->join('floors','registros.floor_id','=','floors.floor_id');
+            $q->join('rooms','registros.room_id','=','rooms.room_id');
+            $q->join('components','registros.component_id','=','components.component_id');
+            $q->join('component_primes','registros.component_prime_id','=','component_primes.component_prime_id');
+            $q->join('states','registros.state_id','=','states.state_id');
+            $q->select('registros.id_registro','floors.floor_id','rooms.room_id','component_primes.component_prime_id','component_primes.name as NombreComponente',
+                                    'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
+                                    'registros.observaciones');
+            $q->where('registros.state_id',2)->orWhere('registros.state_id',5)->orWhere('registros.state_id',8);
+        }))->where('floor_id',$floor_id)->get();
+        
+        //  return $registros;
+        return view('inspection/revisarRegistroxPisoMalas',compact('registros','rooms'));   
+
+    }
+
+         
+
 }

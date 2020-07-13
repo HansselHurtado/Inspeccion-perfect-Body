@@ -1,4 +1,5 @@
 
+var ip = '192.168.1.14:8000';
 function Component(room_id, component_prime_id ){
 
     document.getElementById('contenido').innerHTML = "";
@@ -6,7 +7,7 @@ function Component(room_id, component_prime_id ){
     console.log(room_id, component_prime_id)//retornar en la consola el id de la habitacion y componente
 
     $.ajax({
-        url:`http://192.168.1.22:8000/api/habitaciones/${room_id}/inspeccionar/${component_prime_id}`,
+        url:`http://${ip}/api/habitaciones/${room_id}/inspeccionar/${component_prime_id}`,
         success:function(data){
             console.log(data)  
             document.getElementById('componente').innerHTML= ` Componente: ${data[0].name}
