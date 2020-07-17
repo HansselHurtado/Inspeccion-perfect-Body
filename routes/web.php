@@ -49,6 +49,12 @@ Route::post('/inspeccion/inspeccionar','inspectionController@registro')->name('r
 Route::get('/inspeccion/registros','inspectionController@verRegistro')->name('registros');
 Route::get('/inspeccion/registros/{floor_id}','inspectionController@revisarRegistroxPiso')->name('revisarRegistroxPiso');
 Route::get('/inspeccion/registros/malas/{floor_id}','inspectionController@revisarRegistroxPisoMalas')->name('revisarRegistroxPisoMalas');
+Route::post('/inspeccion/registros/buscarFecha/{floor_id}','inspectionController@buscarXfecha')->name('buscarXfecha');
+Route::post('/inspeccion/registros/buscarFechaMala/{floor_id}','inspectionController@buscarXfechaMalas')->name('buscarXfechaMalas');
+Route::post('/inspeccion/registros/reparar/','inspectionController@repararMalas')->name('repararMalas');
+Route::get('/registros/verElementosReparados/','inspectionController@verReparados')->name('verReparados');
+
+
 
 
 
@@ -59,6 +65,7 @@ Route::get('/Ver-Pisos','FloorController@seeFloor')->name('VerPisos');
 Route::get('/Ver-Pisos/editar/{floor_id}','FloorController@edit')->name('editar');
 Route::put('/Ver-Pisos/editar','FloorController@updateFloor')->name('updateFloors');
 Route::delete('/Ver-Piso/eliminar/{floor_id}','FloorController@deleteFloor')->name('EliminarPiso');
+
 
 
 //rutas de ver y crear habitaciones

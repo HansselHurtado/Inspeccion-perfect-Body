@@ -18,4 +18,10 @@ class Floor extends Model
     {
         return $this->hasMany('App\Registro','floor_id');
     }
+
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','floor_id');
+    }
+
 }

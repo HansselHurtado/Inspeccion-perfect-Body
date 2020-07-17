@@ -1,11 +1,10 @@
 //funcion para poder mandar los select dinamicamente
-var ip = '192.168.1.14:8000';
+var ip = '192.168.1.22:8000';
 
 $(function() {
 
     $('#select-floor').on('change', onSelectFloorChange);
     $('#floor-select').on('change', FloorChange);//mostrar en la inspeccion todas las habitaciones
-    $('#estados').on('change', StateChange);//mostrar los registros malos o buenos
 
 });
 
@@ -71,9 +70,7 @@ function FloorChange(){
 
 }
 
-function StateChange(){
-    var state = $(this).val();
-}
+
 
 
 

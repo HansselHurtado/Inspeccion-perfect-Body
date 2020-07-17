@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRegistrosTable extends Migration
+class CreateElementosReparadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateRegistrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('registros', function (Blueprint $table) {
-            $table->increments('id_registro');
+        Schema::create('elementos_reparados', function (Blueprint $table) {
+            $table->increments('id_elemento_reparado');
+
+            //registro
+            $table->unsignedInteger('id_registro'); 
+            $table->foreign('id_registro')->references('id_registro')->on('registros')->onDelete('cascade');
+
             //piso
             $table->unsignedInteger('floor_id'); 
             $table->foreign('floor_id')->references('floor_id')->on('floors')->onDelete('cascade');
@@ -33,12 +38,14 @@ class CreateRegistrosTable extends Migration
             
             //estado
             $table->unsignedInteger('state_id'); 
-            $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');
+            $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');            
             
+            //responsable
+            $table->unsignedInteger('user_id'); 
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             
             $table->string('observaciones')->nullable();
-            $table->string('estado_reparacion')->nullable();
-            $table->string('fecha');         
+            $table->string('fecha'); 
             $table->timestamps();
         });
     }
@@ -50,6 +57,6 @@ class CreateRegistrosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registros');
+        Schema::dropIfExists('elementos_reparados');
     }
 }

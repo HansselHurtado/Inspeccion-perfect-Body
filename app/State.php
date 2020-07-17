@@ -19,4 +19,9 @@ class State extends Model
     {
         return $this->hasMany('App\Registro','state_id');
     }
+
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','state_id');
+    }
 }

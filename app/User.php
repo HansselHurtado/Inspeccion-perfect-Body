@@ -17,6 +17,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','user_id');
+    }
+
     public static function authorizeRoles($roles){
         
         if(auth()->user()->role_id == $roles) {

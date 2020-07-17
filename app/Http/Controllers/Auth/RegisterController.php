@@ -60,7 +60,6 @@ class RegisterController extends Controller
         dd($request->all());   
         
         $data = $request->all();
-        return $data;
         $this->validator($data);
         $this->create($data);
     }

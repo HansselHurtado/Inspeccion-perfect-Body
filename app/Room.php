@@ -25,4 +25,9 @@ class Room extends Model
     {
         return $this->hasMany('App\Registro', 'room_id');
     }
+
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','room_id');
+    }
 }

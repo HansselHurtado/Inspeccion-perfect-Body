@@ -37,8 +37,8 @@
             <div class="col-sm-6 mb-3 mb-sm-0">
               <input type="text" class="form-control form-control-user" name="description" placeholder="Descripcion">
             </div>    
-            <button  type="submit" style="margin-top: 30px;" href="login.html" class="btn btn-primary btn-user btn-block">
-            Guardar
+            <button  type="submit" style="margin-top: 30px;" class="btn btn-primary btn-user btn-block">
+              Guardar
             </button>          
         </form>
       @endif

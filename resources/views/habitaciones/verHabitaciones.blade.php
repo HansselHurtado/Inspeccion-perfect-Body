@@ -82,7 +82,6 @@
             </tbody>
           </table>
           {{ $rooms->links() }}
-
         @endif
       </div>
     </div>
@@ -106,9 +105,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            @if($rooms->isEmpty())
-
-            @else
+            @if(!$rooms->isEmpty())
               <form id="formulario" method="POST" action="">
                 @method('DELETE')
                 @csrf        		
@@ -123,18 +120,13 @@
                 </td>
               </form> 
             @endif
-          </div>
-       
+          </div>       
         </div>
     </div>
   </div>
-
 @endsection
 
 
 @section('scripts')
-
-
   <script src="{!! asset('js/Selects/Modal_de_Eliminar.js') !!}"></script>
-
 @endsection

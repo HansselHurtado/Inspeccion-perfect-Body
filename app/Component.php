@@ -26,4 +26,9 @@ class Component extends Model
     {
         return $this->hasMany('App\Registro','component_id');
     }
+
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','component_id');
+    }
 }

@@ -4,11 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Registro extends Model
+class ElementosReparados extends Model
 {
+    protected $table = "elementos_reparados"; 
+    protected $primaryKey = 'id_elemento_reparado';
 
-    protected $table = "registros"; 
-    protected $primaryKey = 'id_registro';
+    public function registro()//relacion inversa de uno a mucho
+    {
+        return $this->belongsTo('App\Registro');
+    }
 
     public function floor()//relacion inversa de uno a mucho
     {
@@ -35,8 +39,8 @@ class Registro extends Model
         return $this->belongsTo('App\State');
     }
 
-    public function elementos_reparados()//funcion de relacion de unos a muchos
+    public function user()//relacion inversa de uno a mucho
     {
-        return $this->hasMany('App\ElementosReparados','id_registro');
+        return $this->belongsTo('App\User');
     }
 }

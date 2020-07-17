@@ -57,12 +57,6 @@ class HomeController extends Controller
         $user->save();
         
         return redirect()->back()->with('message','Usuario creado correctamente');
-
-           /* $Validator = $request->validate( [
-            'name' => ['required', 'string', 'max:255','unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3'],
-        ]);*/
         
     }
     
@@ -72,16 +66,7 @@ class HomeController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {   
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'role_id' => $data['role_id'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
+    
     public function ver_usuarios(Request $request){
 
         //return auth()->user()->role_id;

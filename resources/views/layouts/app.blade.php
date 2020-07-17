@@ -100,7 +100,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
             <span>Usuarios</span>
@@ -115,12 +115,19 @@
           </div>
         </li>
       @endif
-
-      <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="{{route('registros')}}">
+        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePagess" aria-expanded="true" aria-controls="collapsePagess">
           <i class="fas fa-fw fa-table"></i>
-          <span>Registros de Inspecciones</span></a>
+          <span>Registros</span>
+        </a>
+        <div id="collapsePagess" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Qué quieres hacer:</h6>
+            <a class="collapse-item" href="{{route('registros')}}">Registros de Inspecciones</a>
+            <a class="collapse-item" href="{{route('verReparados')}}">Registros Reparados</a>
+            <div class="collapse-divider"></div>            
+          </div>
+        </div>
       </li>
       <!-- Nav Item - Charts -->
       <li class="nav-item">

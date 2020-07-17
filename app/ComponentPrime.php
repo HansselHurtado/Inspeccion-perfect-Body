@@ -25,4 +25,9 @@ class ComponentPrime extends Model
     {
         return $this->hasMany('App\Registro','component_prime_id');
     }
+
+    public function elementos_reparados()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\ElementosReparados','component_prime_id');
+    }
 }
