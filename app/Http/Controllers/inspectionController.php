@@ -13,6 +13,7 @@ use App\Registro;
 use App\User;
 use Carbon\Carbon;
 use App\ElementosReparados;
+use App\Mail\correoDeInspeccion;
 use Illuminate\Support\Facades\Mail; 
 use Illuminate\Support\Facades\Auth;
 
@@ -93,6 +94,10 @@ class inspectionController extends Controller
             $registro->estado_reparacion = 1;
             $registro->save();         
         }
+        
+        //$mensaje = $request->input("Observaciones");
+        //Mail::to('hansselhurtado@gmail.com')->send(new correoDeInspeccion($mensaje));
+        
         return redirect()->back();       
     }
 
@@ -153,7 +158,7 @@ class inspectionController extends Controller
                         'registros.observaciones','registros.fecha','registros.estado_reparacion');
             $q->where('registros.fecha','=',$date)->whereIn('registros.state_id',[2,5,8]);//whereIn se utliza como el metodo OR
         }))->where('floor_id',$floor_id)->get();
-      
+        
         return view('inspection/revisarRegistroxPisoMalas',compact('registros','date'));  
     }
 
@@ -187,19 +192,10 @@ class inspectionController extends Controller
         $registro = Registro::where('id_registro', '=', $request->id_registro)->first();
         $registro->estado_reparacion = 2;
         $registro->save();
-
-        $subject = "Un nuevo elemento por reparar";
-        $for = "hansselhurtado@gmail.com";
-        Mail::send('email',$request->all(), function($msj) use($subject,$for){
-            $msj->from("inspeccion.perfectbody@gmail.com","Inspector");
-            $msj->subject($subject);
-            $msj->to($for);
-        });
-
         return redirect()->back();  
     }
 
-    public function verReparados(){
+    public function verReparados(){ 
 
         $raparar = DB::table('elementos_reparados')
                         ->join('users','elementos_reparados.user_id','=','users.user_id')

@@ -17,7 +17,7 @@
                 <div class="card shadow mb-4">              
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 font-weight-bold text-primary">{{$registro->name}} </h5>
-                        <form method="POST" action={{ route('buscarXfecha',$registro->floor_id) }}>
+                        <form method="POST" action={{ route('buscarXfechaMalas',$registro->floor_id) }}>
                             @csrf
                             <div class="  d-flex justify-content-between align-items-center">
                                 <label class="ml-25" for=""> Buscar por fecha</label>                      
