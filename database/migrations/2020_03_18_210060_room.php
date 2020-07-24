@@ -17,6 +17,7 @@ class Room extends Migration
             $table->increments('room_id');
             $table->string('name');
             $table->string('descripcion')->nullable();
+            $table->string('estado_de_inspeccion');
             $table->integer('floor_id')->unsigned(); 
             $table->foreign('floor_id')->references('floor_id')->on('floors')->onDelete('cascade');
             $table->timestamps();

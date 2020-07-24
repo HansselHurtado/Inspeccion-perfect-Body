@@ -1,4 +1,4 @@
-var ip = '192.168.1.7:8000';
+var ip = '192.168.1.22:8000';
 
 function RepararElemento(id_registro){
 

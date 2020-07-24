@@ -58,7 +58,7 @@
                                                     </a>
                                                 @elseif($registros->nombreEstado ==  "Malo")
                                                     <a title="Malo" href="#" class="btn btn-danger btn-circle" >
-                                                        <i   class="fas fa-exclamation-triangle"></i>
+                                                        <i class="fas fa-exclamation-triangle"></i>
                                                     </a>
                                                 @else
                                                     {{$registros->nombreEstado}}
@@ -71,7 +71,7 @@
                                                             <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Reparar
                                                         </button>
                                                     @else
-                                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="RepararElemento('{{$registros->id_registro}}')">
+                                                        <button  class="btn btn-success btn-rounded waves-effect">
                                                             <i class="fas fa-check" aria-hidden="true"></i> Reparado
                                                         </button>
                                                     @endif                    

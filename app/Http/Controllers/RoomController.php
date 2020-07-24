@@ -37,6 +37,7 @@ class RoomController extends Controller
         $room->name = $request->name;
         $room->descripcion = $request->description;
         $room->floor_id = $request->floor_id;
+        $room->estado_de_inspeccion = "1";
         foreach ($Validate_rooms as $Validate_room) {
             if($request->name == $Validate_room->name && $Validate_room->floor_id == $request->floor_id ){
                 return redirect()->back()->with('message6','La Habitacion que intenta crear ya se encuenta creada en este piso');

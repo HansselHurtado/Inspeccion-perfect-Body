@@ -37,32 +37,36 @@
               <tr>
                 <th>Habitacion</th>
                 <th>Piso</th>
-                <th style="text-align: center;" >Inspeccionar</th>             
-            
+                <th style="text-align: center;" >Inspeccionar</th>        
               </tr>
             </thead>
             <tfoot>
               <tr>
                 <th>Habitacion</th>
                 <th>Piso</th>
-                <th style="text-align: center;">Inspeccionar</th>            
-
+                <th style="text-align: center;" >Inspeccionar</th>           
               </tr>
             </tfoot>
             <tbody id="tr">
               @foreach ($rooms as $room)
-              <tr >
+              <tr>
                   <td>{{$room->name}}</td>
                   <td id="floor_name">{{$room->floor}}</td>
                   <td  style="text-align: center;" >
+                    @if($room->estado_de_inspeccion == 1)
                       <a href={{route('inspeccionComponentes',$room->room_id)}} class="btn btn-info btn-icon-split">
                           <span class="icon text-white-50">
                           <i class="fas fa-info-circle"></i>
                           </span>
                           <span  class="text">Inspeccionar</span>
                       </a>
-                  </td>      
-                  
+                    @else
+                      <a class="btn btn-info btn-icon-split">
+                        <button title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
+                          <i class="fas fa-check" aria-hidden="true"></i> Inspeccionada
+                      </button>
+                    @endif
+                  </td>               
               </tr>                
               @endforeach
             </tbody>

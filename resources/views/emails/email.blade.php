@@ -7,7 +7,8 @@
     <title>Mensaje de inspeccion </title>
 </head>
 <body>
-    <h1>Nueva inspeeccion mala</h1>
-    <h2> Con una observacion: {{$mensaje}} </h2>
+    <h1>Nuevas inspeecciones</h1>
+    <h3> Hay Algunas inspecciones malas que revisar el dia de hoy, Por favor Verifique</h3>
+    <a href="http://192.168.1.22:8000/inspeccion/registros"> Click aqui para ir a Revisar</a>    
 </body>
 </html>

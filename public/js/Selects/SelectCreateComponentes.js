@@ -1,5 +1,5 @@
 //funcion para poder mandar los select dinamicamente
-var ip = '192.168.1.7:8000';
+var ip = '192.168.1.22:8000';
 
 $(function() {
 
@@ -62,7 +62,7 @@ function FloorChange(){
                         </span>
                         <span  class="text">Inspeccionar</span>
                     </a>
-                </td>      
+                </td> 
             </tr> `;
         }           
 

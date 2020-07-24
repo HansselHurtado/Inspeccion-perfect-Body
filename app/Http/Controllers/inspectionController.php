@@ -36,15 +36,14 @@ class inspectionController extends Controller
         $components = Component::all();
         $rooms = DB::table('rooms')
                 ->join('floors','rooms.floor_id','=','floors.floor_id')
-                ->select('rooms.room_id','rooms.name','floors.name as floor')
+                ->select('rooms.room_id','rooms.name','rooms.estado_de_inspeccion','floors.name as floor')
                 ->orderBy('floors.floor_id')
                 ->paginate(5);
     	return view ('inspection/inspection',compact('rooms','components','floors'));
     }
 
     public function componentInspetion($room_id){
-
-        $rooms = Room::findOrFail($room_id);
+        $rooms = Room::findOrFail($room_id);        
         $component_primes = ComponentPrime::all();
         $states = State::all();
         $floors = DB::table('rooms')
@@ -54,7 +53,6 @@ class inspectionController extends Controller
                 ->get();
         
         return view('inspection/inspeccionComponent',compact('component_primes','rooms','floors','states'));
-
     }
 
     public function InspeccionarHabitacion($room_id, $component_prime_id){       
@@ -94,10 +92,9 @@ class inspectionController extends Controller
             $registro->estado_reparacion = 1;
             $registro->save();         
         }
-        
-        //$mensaje = $request->input("Observaciones");
-        //Mail::to('hansselhurtado@gmail.com')->send(new correoDeInspeccion($mensaje));
-        
+        $room = Room::where('room_id', '=', $request->room_id)->first();
+        $room->estado_de_inspeccion = 2;
+        $room->save();        
         return redirect()->back();       
     }
 
