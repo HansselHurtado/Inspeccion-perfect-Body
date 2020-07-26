@@ -16,6 +16,7 @@ class Component extends Migration
         Schema::create('components', function (Blueprint $table) {
             $table->increments('component_id');
             $table->string('name');
+            $table->string('estado_de_inspeccion');
             $table->string('descripcion')->nullable();
             $table->unsignedInteger('room_id');
             $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');

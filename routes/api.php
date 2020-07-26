@@ -26,6 +26,7 @@ Route::get('/floor/{id}/habitaciones', 'RoomController@InpectionFloor');
 
 //para los componentes
 Route::get('/habitaciones/{room_id}/inspeccionar/{component_prime_id}', 'inspectionController@InspeccionarHabitacion');
+Route::get('/habitacionesInspeccionadas/{room_id}/inspeccionar/{component_prime_id}', 'inspectionController@HabitacionInspeccionada');
 
 //reparacion de elementos
 Route::get('/inspeccion/registros/reparar/{id_regsitro}','inspectionController@repararElemento');

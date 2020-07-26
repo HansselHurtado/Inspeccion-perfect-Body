@@ -19,9 +19,9 @@
                         <h5 class="m-0 font-weight-bold text-primary">{{$registro->name}} </h5>
                         <form method="POST" action={{ route('buscarXfechaMalas',$registro->floor_id) }}>
                             @csrf
-                            <div class="  d-flex justify-content-between align-items-center">
-                                <label class="ml-25" for=""> Buscar por fecha</label>                      
-                                <input name="fecha" class="form-control form-control-user w-75" type="date" required>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                                <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
                                 <button class="btn btn-primary " type="submit">buscar</button>
                             </div>
                         </form>
@@ -93,11 +93,11 @@
             <h2>NO SE ENCONTRARON INSPECCIONES ESTE DIA {{$date}}</h2>
         </div>      
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <form method="POST" action={{ route('buscarXfecha',$registros[0]->floor_id) }}>
+            <form method="POST" action={{ route('buscarXfechaMalas',$registro->floor_id) }}>
                 @csrf
-                <div class="  d-flex justify-content-between align-items-center">
-                    <label class="ml-25" for=""> Buscar por fecha</label>                      
-                    <input name="fecha" class="form-control form-control-user w-75" type="date" required>
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                    <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
                     <button class="btn btn-primary " type="submit">buscar</button>
                 </div>
             </form>

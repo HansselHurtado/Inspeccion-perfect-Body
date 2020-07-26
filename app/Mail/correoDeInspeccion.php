@@ -13,15 +13,20 @@ class correoDeInspeccion extends Mailable
 
     public $asunto = "Mensaje inspeccion";
     public $mensaje;
+    public $elementos;
+    public $habitacion;
+    public $estado;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($mensaje)
+    public function __construct($mensaje,$elemento, $room, $state)
     {
         $this->mensaje = $mensaje; 
-        //
+        $this->elementos = $elemento;
+        $this->habitacion = $room;
+        $this->estado = $state;
     }
   
     /**

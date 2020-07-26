@@ -22,16 +22,16 @@
             <span class="text">Crear</span>
           </a>
         @else
-        <div class="col-sm-12 mb-3 mb-sm-0 d-flex flex-column">
-          <label for=""> Buscar por Piso</label>
-          <select style="border-radius: 20px; height: 50px;"  class="browser-default custom-select mb-4 w-75"  id="floor-select" name="floor_id" required>
+          <div class="col-sm-12 mb-3 mb-sm-0 d-flex flex-column">
+            <label for=""> Buscar por Piso</label>
+            <select style="border-radius: 20px; height: 50px;"  class="browser-default custom-select mb-4 w-75"  id="floor-select" name="floor_id" required>
               <option value="" selected disabled>Escoger Piso</option>
               <option value="0" >Todas las Habitaciones</option>
               @foreach ($floors as $floor)
-                  <option value="{{$floor->floor_id}}">{{$floor->name}}</option>
+                <option value="{{$floor->floor_id}}">{{$floor->name}}</option>
               @endforeach                    
-          </select>
-      </div>
+            </select>
+          </div>
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
@@ -55,16 +55,15 @@
                   <td  style="text-align: center;" >
                     @if($room->estado_de_inspeccion == 1)
                       <a href={{route('inspeccionComponentes',$room->room_id)}} class="btn btn-info btn-icon-split">
-                          <span class="icon text-white-50">
-                          <i class="fas fa-info-circle"></i>
-                          </span>
-                          <span  class="text">Inspeccionar</span>
+                        <span class="icon text-white-50">
+                        <i class="fas fa-info-circle"></i>
+                        </span>
+                        <span  class="text">Inspeccionar</span>
                       </a>
-                    @else
-                      <a class="btn btn-info btn-icon-split">
-                        <button title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
-                          <i class="fas fa-check" aria-hidden="true"></i> Inspeccionada
-                      </button>
+                    @else      
+                      <a href={{route('habitacionesInspeccionadas',$room->room_id)}} title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
+                        <i class="fas fa-check" aria-hidden="true"></i> Inspeccionada
+                      </a>
                     @endif
                   </td>               
               </tr>                

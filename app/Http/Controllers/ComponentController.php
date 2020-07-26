@@ -23,6 +23,7 @@ class ComponentController extends Controller
         
         $component =  new Component();
         $component->name = $request->name;
+        $component->estado_de_inspeccion = 1;
         $component->descripcion = $request->description;
         $component->room_id = $request->room_id;
         $component->component_prime_id = $request->component_prime_id;

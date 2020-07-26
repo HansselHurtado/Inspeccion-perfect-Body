@@ -45,7 +45,9 @@ Auth::routes();
 //ruta de inspeccion
 Route::get('/inspeccion','inspectionController@index')->name('inspeccion');
 Route::get('/inspeccion/inspeccionar/{room_id}','inspectionController@componentInspetion')->name('inspeccionComponentes');
+Route::get('/inspeccion/inspeccionar/inspeccionada/{room_id}','inspectionController@componentInspetionInspeccionada')->name('habitacionesInspeccionadas');
 Route::post('/inspeccion/inspeccionar','inspectionController@registro')->name('registroReporte');
+Route::post('/inspeccion/inspeccionar/inspecciondas','inspectionController@editarRegistroReporte')->name('editarRegistroReporte');
 Route::get('/inspeccion/registros','inspectionController@verRegistro')->name('registros');
 Route::get('/inspeccion/registros/{floor_id}','inspectionController@revisarRegistroxPiso')->name('revisarRegistroxPiso');
 Route::get('/inspeccion/registros/malas/{floor_id}','inspectionController@revisarRegistroxPisoMalas')->name('revisarRegistroxPisoMalas');
