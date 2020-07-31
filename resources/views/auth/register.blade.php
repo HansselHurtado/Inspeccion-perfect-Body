@@ -2,6 +2,8 @@
 
 
 @section('content')
+@include('spiners/spiner')
+
         
     <div class="col-lg-6">
         <div class="p-5">

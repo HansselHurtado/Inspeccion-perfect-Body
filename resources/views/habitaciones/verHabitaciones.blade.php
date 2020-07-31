@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@include('spiners/spiner')
 @include('estados/mensaje')
 
 <div class="card shadow mb-4">

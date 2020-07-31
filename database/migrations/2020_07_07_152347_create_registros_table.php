@@ -35,9 +35,10 @@ class CreateRegistrosTable extends Migration
             $table->unsignedInteger('state_id'); 
             $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');
             
-            
+            $table->string('foto')->nullable();            
             $table->string('observaciones')->nullable();
             $table->string('estado_reparacion')->nullable();
+            $table->string('estado_vitacora')->nullable();
             $table->string('fecha');         
             $table->timestamps();
         });

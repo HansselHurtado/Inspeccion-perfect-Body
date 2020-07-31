@@ -103,8 +103,7 @@ class HomeController extends Controller
         } 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role_id = $request->role_id;
-        
+        $user->role_id = $request->role_id;        
         $user->save();
         return redirect()->route('verUsarios')->with('message','Usuario actualizado correctamente');
         //return redirect()->route('VerPisos',['floor_id'=>$floor->floor_id])->with('message4','Piso actualizado correctamente');//cuando una vista tiene id
@@ -114,16 +113,12 @@ class HomeController extends Controller
     public function delet($id){
        
         User::authorizeRoles(1);
-
         $user = User::findOrfail($id);
-
         if($user->user_id == 1){
             return redirect()->route('verUsarios')->with('message6',' No se puede Elimnar el Usuario Administrador');            
         } 
         $user->delete();
         return redirect()->route('verUsarios')->with('message','Usuario  Eliminado correctamente');
-
-
     }
 
 

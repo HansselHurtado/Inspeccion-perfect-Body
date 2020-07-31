@@ -45,7 +45,6 @@ Auth::routes();
 //ruta de inspeccion
 Route::get('/inspeccion','inspectionController@index')->name('inspeccion');
 Route::get('/inspeccion/inspeccionar/{room_id}','inspectionController@componentInspetion')->name('inspeccionComponentes');
-Route::get('/inspeccion/inspeccionar/inspeccionada/{room_id}','inspectionController@componentInspetionInspeccionada')->name('habitacionesInspeccionadas');
 Route::post('/inspeccion/inspeccionar','inspectionController@registro')->name('registroReporte');
 Route::post('/inspeccion/inspeccionar/inspecciondas','inspectionController@editarRegistroReporte')->name('editarRegistroReporte');
 Route::get('/inspeccion/registros','inspectionController@verRegistro')->name('registros');
@@ -54,10 +53,8 @@ Route::get('/inspeccion/registros/malas/{floor_id}','inspectionController@revisa
 Route::post('/inspeccion/registros/buscarFecha/{floor_id}','inspectionController@buscarXfecha')->name('buscarXfecha');
 Route::post('/inspeccion/registros/buscarFechaMala/{floor_id}','inspectionController@buscarXfechaMalas')->name('buscarXfechaMalas');
 Route::post('/inspeccion/registros/reparar/','inspectionController@repararMalas')->name('repararMalas');
+Route::post('/inspeccion/registros/reparar/vitacora','inspectionController@repararMalasVitacora')->name('repararMalasVitacora');
 Route::get('/registros/verElementosReparados/','inspectionController@verReparados')->name('verReparados');
-
-
-
 
 
 //ruta de ver y crear pisos
@@ -65,9 +62,8 @@ Route::get('/CrearPiso','FloorController@index')->name('Pisos');
 Route::post('/CrearPiso','FloorController@create')->name('createFloor');
 Route::get('/Ver-Pisos','FloorController@seeFloor')->name('VerPisos');
 Route::get('/Ver-Pisos/editar/{floor_id}','FloorController@edit')->name('editar');
-Route::put('/Ver-Pisos/editar','FloorController@updateFloor')->name('updateFloors');
+Route::put('/Ver-Pisos/editar','FloorController@updateFloor')->name('updateFloors')->middleware('auth');
 Route::delete('/Ver-Piso/eliminar/{floor_id}','FloorController@deleteFloor')->name('EliminarPiso');
-
 
 
 //rutas de ver y crear habitaciones

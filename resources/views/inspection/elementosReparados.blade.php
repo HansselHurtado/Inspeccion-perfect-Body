@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-@include('estados/mensaje')
-    
+@include('spiners/spiner')
+
     <div class="mb-4 d-flex justify-content-center align-items-center">               
         <h5 class="m-0 font-weight-bold text-primary ">Elementos Reparados</h5>       
     </div>    
@@ -16,11 +16,13 @@
                                 <th>Elemento</th>                                    
                                 <th>Piso</th>
                                 <th>Habitacion</th>
-                                <th>Componente</th>
                                 <th>Estado Anterior</th>
+                                <th>Fecha de Reporte</th>
                                 <th>Fecha de Reparacion</th>
                                 <th>Responsable</th>
                                 <th>Observaciones de Reparacion</th>
+                                <th>Vitacora</th>
+                                <th>Foto de evidencia</th>                               
                             </tr>
                         </thead>
                         <tbody>
@@ -29,8 +31,8 @@
                                     <th>{{$repara->nombreElemento}}</th>
                                     <th>{{$repara->nombrePiso}}</th>
                                     <th>{{$repara->nombrehabitacion}}</th>
-                                    <th>{{$repara->NombreComponente }}</th> 
                                     <th>{{$repara->nombreEstado}}</th>
+                                    <th>{{$repara->fecha_registro}}</th>
                                     <th>{{$repara->fecha}}</th>
                                     <th style="text-align: center;">{{$repara->nombreUser}}</th>
                                     <th style="text-align: center;">
@@ -39,6 +41,16 @@
                                         @else
                                             --
                                         @endif
+                                    </th>
+                                    <th  style="text-align: center;"> 
+                                        <button  class="btn btn-info btn-rounded waves-effect" onclick="VitacoraGenerada_elemento_reparado('{{$repara->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button> 
+                                    </th>
+                                    <th style="text-align: center;"> 
+                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="foto_elemento_reparado('{{$repara->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
+                                            <i class="fas fa-eye" aria-hidden="true"></i>
+                                        </button> 
                                     </th>
                                 </tr> 
                             @endforeach                                              
@@ -49,8 +61,34 @@
             </div>        
         </div>                
     @else
-        No hay Reparaciones
+        <h2>NO HAY NIGUN ELEMENTO ASOCIADO</h2>
+        <hr>
     @endif   
     
+
+    <!--Modal vitacora elemnto reparado -->
+    
+    <div class="modal fade" id="vitacoraModal_reparado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+      <div class="modal-dialog" role="document">        
+            <div class="modal-content">
+                <div  class="modal-header">
+                    <h5 id="titulo_vitacora_Or_foto" class="modal-title"> </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class=" modal-body btn float-left">
+                        <div id="textVitacora_reparado">
+                            
+                        </div>
+                    </div>                                                                  
+                </div>       
+            </div>
+      </div>
+    </div> 
+@endsection
+@section('scripts')
+  <script src="{!! asset('js/Selects/Registros.js') !!}"></script>
 @endsection
 

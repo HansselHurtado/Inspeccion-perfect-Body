@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-@include('estados/mensaje')
+@include('spiners/spiner')
+
     @php($i=0)
     @foreach ($registros as $registro )    
         @if(!$registro->registro->isEmpty())            
@@ -37,6 +38,7 @@
                                         <th style="text-align: center;" >Observaciones</th>
                                         <th style="text-align: center;" >Estado / Tiene</th>
                                         <th style="text-align: center;" >Reparar</th>
+                                        <th style="text-align: center;" >Vitacora</th>
                                     </tr>
                                 </thead>
                                 <tbody>                               
@@ -71,13 +73,24 @@
                                                             <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Reparar
                                                         </button>
                                                     @else
-                                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="RepararElemento('{{$registros->id_registro}}')">
+                                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="ElementoReparado('{{$registros->id_registro}}') " data-toggle="modal" data-target="#verRegistroModal">
                                                             <i class="fas fa-check" aria-hidden="true"></i> Reparado
                                                         </button>
                                                     @endif                    
                                                 @else  
                                                     ---
                                                 @endif
+                                            </th>
+                                            <th style="text-align: center;">
+                                                @if($registros->estado_vitacora == 1)
+                                                    <button  class="btn btn-outline-info btn-rounded waves-effect" onclick="Vitacora('{{$registros->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal">
+                                                        <i class="fas fa-file-alt" aria-hidden="true"></i> Generar Vitacora
+                                                    </button>
+                                                @else
+                                                    <button  class="btn btn-info btn-rounded waves-effect" onclick="VitacoraGenerada('{{$registros->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal">
+                                                        <i class="fas fa-check" aria-hidden="true"></i> Vitacora Generada
+                                                    </button>                                                    
+                                                @endif                                      
                                             </th>
                                         </tr>                                              
                                     @endforeach
@@ -104,38 +117,71 @@
         </div>  
     @endif    
     
-    <!--Modal-->
+    <!--Modal reparacion-->
     
     <div class="modal fade" id="verRegistroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <form id="formulario_reparar" method="POST" action="{{ route('repararMalas')}}">
+        <form id="formulario_reparar" method="POST" action="{{ route('repararMalas')}}" enctype="multipart/form-data">
             @csrf  
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Reparar Elemento <strong id="elemento"></strong></h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                    </button>
+                <div id="titulo" class="modal-header">
                 </div>
-                <div  class="modal-body">
-                    <div>
-                        <label for=""> Estado Actual: <strong id="estado"></strong></label>
+                <div class="modal-body">
+                    <div id="estado_actual">
+                        <label for=""> Estado Actual: <strong id="estadoReparar"></strong></label>
                     </div>
-                    <div>
-                        <label for=""> Observaciones de Reparacion:</label>
-                        <input name="Observaciones" class="form-control form-control-user w-75" type="text">  
-                    </div>                             
+                    <div id="evidencia_repara">
+                        <label for=""> Evidencia: <strong id="no_hay" ></strong></label>
+                        <div id="evidencias">                                                    
+                        </div>
+                    </div>
+                    <div id="observaciones_reparacion">
+                    </div>                    
+                    <div id="evidencia_reparada" class="btn btn-sm float-left">                        
+                    </div>                                               
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>        
                     <button type="submit" class="btn btn-primary btn-icon-split" >
-                        <span class="text">Reparar</span>
+                        <span id="button_editar" class="text">Reparar</span>
                     </button>                    
                 </div>       
             </div>
         </form> 
       </div>
     </div>
+
+    <!--Modal vitacora -->
+    
+    <div class="modal fade" id="vitacoraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <form id="formulario_reparar" method="POST" action="{{ route('repararMalasVitacora')}}" enctype="multipart/form-data">
+            @csrf  
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vitacora Elemento <strong id="elemento_vitacora"></strong></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div  class="modal-body">
+                    <div class=" modal-body btn float-left">
+                        <label class="float-left" for=""> Escribir vitacora:</label>
+                        <div id="textVitacora">
+                            <textarea value="hola" class="form-control"  name="vitacora" id="" cols="30" rows="10" required></textarea>  
+                        </div>
+                    </div>                                                                  
+                </div>
+                <div id="footer" class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>        
+                    <button type="submit" class="btn btn-primary btn-icon-split" >
+                        <span id="button" class="text"> </span>
+                    </button>                    
+                </div>       
+            </div>
+        </form> 
+      </div>
+    </div> 
 @endsection
 
 @section('scripts')

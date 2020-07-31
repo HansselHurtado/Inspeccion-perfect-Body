@@ -8,9 +8,17 @@ use App\Room;
 use App\Floor;
 use App\ComponentPrime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ComponentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
 
         $floors = Floor::all();

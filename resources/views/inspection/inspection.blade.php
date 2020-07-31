@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@include('spiners/spiner')
 @include('estados/mensaje')
 
-<div class="card shadow mb-4">
+  <div class="card shadow mb-4">  
     <div class="card-header py-3">
       <h3 class="m-0 font-weight-bold text-primary">Inspeccionar</h3>
     </div>
@@ -61,7 +62,7 @@
                         <span  class="text">Inspeccionar</span>
                       </a>
                     @else      
-                      <a href={{route('habitacionesInspeccionadas',$room->room_id)}} title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
+                      <a href={{route('inspeccionComponentes',$room->room_id)}} title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
                         <i class="fas fa-check" aria-hidden="true"></i> Inspeccionada
                       </a>
                     @endif
@@ -73,8 +74,9 @@
           {{ $rooms->links() }}
         @endif
       </div>
-    </div>
+    </div>  
   </div>
+
 @endsection
 
 @section('scripts')

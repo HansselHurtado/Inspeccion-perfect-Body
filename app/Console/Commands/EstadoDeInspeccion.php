@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Room;
+use App\Component;
 
 class EstadoDeInspeccion extends Command
 {
@@ -42,6 +43,11 @@ class EstadoDeInspeccion extends Command
         foreach ($rooms as $room) {
             $room->estado_de_inspeccion = 1;
             $room->save();
+        }
+        $elementos = Component::all();
+        foreach ($elementos as $elemento) {
+            $elemento->estado_de_inspeccion = 1;
+            $elemento->save();
         }
     }
 }

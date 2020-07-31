@@ -1,5 +1,5 @@
 //funcion para poder mandar los select dinamicamente
-var ip = '192.168.1.3:8000';
+var ip = '192.168.1.22:8000';
 
 $(function() {
 
@@ -57,19 +57,19 @@ function FloorChange(){
                 <td id="floor_name ">${floor_name}</td>
                 <td style="text-align: center;" > 
                     ${data[0].room[i].estado_de_inspeccion == 1 ? `
-                    <a href=http://${ip}/inspeccion/inspeccionar/${data[0].room[i].room_id} class="btn btn-info btn-icon-split">
-                        <span class="icon text-white-50">
-                            <i class="fas fa-info-circle"></i>
-                        </span>
-                        <span  class="text">Inspeccionar</span>
-                    </  a>
+                        <a href=http://${ip}/inspeccion/inspeccionar/${data[0].room[i].room_id} class="btn btn-info btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                            <span  class="text">Inspeccionar</span>
+                        </a>
                 </td>
             </tr>`:
-                    `<a href=http://${ip}/inspeccion/inspeccionar/inspeccionada/${data[0].room[i].room_id} title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
+                    `<a href=http://${ip}/inspeccion/inspeccionar/${data[0].room[i].room_id} title="Esta Habitacion ya fue inpeccionada el dia de hoy" class="btn btn-success btn-rounded waves-effect">
                         <i class="fas fa-check" aria-hidden="true"></i> Inspeccionada
                     </a>
                 </td>
-            </tr>`}`
+            </tr>`  }`
         }           
     });
 

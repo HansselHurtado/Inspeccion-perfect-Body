@@ -7,9 +7,17 @@ use App\Floor;
 use App\Room;
 use Illuminate\Http\Request;
 use Illuminate\Routing\RedirectorRedirectorRedirectResponseroute;
+use Illuminate\Support\Facades\Auth;
+
 
 class FloorController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(){
         User::authorizeRoles(1);
     	return view('pisos/createPisos');

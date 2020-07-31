@@ -15,7 +15,7 @@
   <link href="{!! asset('https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i') !!}" rel="stylesheet">
 
   <link rel="stylesheet" href="{!! asset('css/sb-admin-2.min.css') !!}">
-
+  <link rel="stylesheet" href="{!! asset('css/spiner.css') !!}">
 
   <!-- Custom styles for this template-->
   
@@ -23,7 +23,7 @@
 
 </head>
 
-<body id="page-top">
+<body class="hidden" id="page-top">
 
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -123,8 +123,10 @@
         <div id="collapsePagess" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Qué quieres hacer:</h6>
-            <a class="collapse-item" href="{{route('registros')}}">Registros de Inspecciones</a>
-            <a class="collapse-item" href="{{route('verReparados')}}">Registros Reparados</a>
+            @if(auth()->user()->role_id == 1)
+              <a class="collapse-item" href="{{route('registros')}}">Registros de Inspecciones</a>
+            @endif            
+              <a class="collapse-item" href="{{route('verReparados')}}">Registros Reparados</a>            
             <div class="collapse-divider"></div>            
           </div>
         </div>
@@ -344,9 +346,11 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
-          @yield('content')
-        </div>
+       
+          <div class="container-fluid ">
+            @yield('content')
+          </div>
+       
          <!-- /.container-fluid -->
 
       </div>

@@ -8,11 +8,17 @@ use App\Floor;
 use App\ComponentPrime;
 use App\Component;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 
 class RoomController extends Controller
 {   
+    public function __construct()
+    {
+        $this->middleware('auth')->only('create','seeRoom','edit','updateRoom','deleteRoom');
+    }
+
     public function byFloor($id){//para consultar el id, lo utlizamos en los select dinamicos
         return Room::where('floor_id', $id)->get();
     }
@@ -20,8 +26,6 @@ class RoomController extends Controller
     public function InpectionFloor($id){//para consultar el id, lo utlizamos en los select dinamicos        
         return $floor=Floor::with('room')->where('floor_id',$id)->get();
     }
-
-
 
     public function index(){
         

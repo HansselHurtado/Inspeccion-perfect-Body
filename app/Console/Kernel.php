@@ -14,7 +14,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\EstadoDeInspeccion',
-        'App\Console\Commands\EnviarCorreo',
     ];
 
     /**
@@ -25,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:name');
-        $schedule->command('command:name');
+        $schedule->command('command:name')->everyMinute();
         //$schedule->job(new Estados_De_Inspeccion)->everyMinute();
         // $schedule->command('inspire')->hourly();
     }

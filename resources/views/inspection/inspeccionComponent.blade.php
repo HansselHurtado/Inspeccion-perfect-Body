@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-@include('estados/mensaje')
+@include('modals/modal')  
+@include('spiners/spiner')
 
     <div class="card shadow mb-4 row">
         <div class="card-header py-3">
-            <h3 class="m-0 font-weight-bold text-primary">Inspeccionar Componenetes</h3><hr>
+            @if ($rooms->estado_de_inspeccion == 1)
+                <h3 class="m-0 font-weight-bold text-primary">Inspeccionar Componenetes</h3><hr>                
+            @else
+                <h3 class="m-0 font-weight-bold text-primary">Habitacion Inspeccionda el dia de Hoy</h3><hr>                
+            @endif
             <h5 class="m-0 font-weight-bold text-primary">{{$rooms->name}} - {{$floors[0]->piso}}</h5>
         </div>
         <div class="card-body">
@@ -26,8 +31,8 @@
                                             <span class="text ">Inspeccionar</span>
                                         </button>
                                     @else
-                                        <button  value="$component_prime->component_prime_id" class="btn-block btn btn-icon-split justify-content-start btn-success"
-                                            title="Ya fue inspeccionado">
+                                        <button  value="$component_prime->component_prime_id" onclick="RoomInspection('{{$rooms->room_id}}','{{$component_prime->component_prime_id}}');" class=" btn-block btn btn-icon-split justify-content-start btn-success"  
+                                            data-toggle="modal" data-target="#ModalComponentInspeccionada">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-check" aria-hidden="true"></i>
                                             </span>
@@ -35,80 +40,23 @@
                                         </button>
                                     @endif
                                 @else 
-                                    <button  value="$component_prime->component_prime_id" onclick="Component('{{$rooms->room_id}}','{{$component_prime->component_prime_id}}');" class=" btn-block btn btn-icon-split justify-content-start btn-primary"  
-                                        data-toggle="modal" data-target="#ModalComponent">
+                                    <button  value="$component_prime->component_prime_id" class=" btn-block btn btn-icon-split justify-content-start btn-primary">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-arrow-right"></i>
                                         </span>
-                                        <span class="text ">Inspeccionar</span>
-                                    </button>                         
-                                @endif
-                                
+                                        <span class="text ">No hay elementos</span>
+                                    </button>                        
+                                @endif                                
                             </div>
                         </div>            
                     @endforeach      
                 </div>
             </div>
-        </div>
-        
+        </div>  
     </div>
     
-  <!-- Modal -->
-    <div class="modal fade" id="ModalComponent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <form id="formulario" method="POST" action="{{ route('registroReporte')}}">
-                @csrf
-                <div class="modal-content">
-                    <div class="modal-header bg-blue">
-                        <h4 class="modal-title" id="componente"></h4>                    
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>       
-                    </div>
-                    <div class="modal-header bg-blue">
-                        <h6 class="modal-title" id="habitacion"> 
-                            <input style="display: none;" name="floor_id" value="{{$floors[0]->floor_id}}" type="text">
-
-                            <input style="display: none;" name="room_id" value="{{$rooms->room_id}}" type="text">
-                            {{$rooms->name}}
-                        </h6>      
-                    </div>
-                    <div id="conte">
-                        <div id="contenidoo" class="modal-body">
-                            <div id="table">
-                                <table  class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th id="th1">#</th>
-                                        <th id="elemento">Elemento</th>                                
-                                        <th id="estados">Tiene</th>                                
-                                        <th id="observaciones" style="text-align: center;" >Observaciones</th>                        
-                                    </tr>
-                                    </thead>
-                                    <tbody id="contenido"> 
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <div id="guardar">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>            
-                </div>
-            </form>
-        </div>
-    </div>
 @endsection
 
-
 @section('scripts')
-
-
   <script src="{!! asset('js/Selects/ComponenteInspeccion.js') !!}"></script>
-
 @endsection

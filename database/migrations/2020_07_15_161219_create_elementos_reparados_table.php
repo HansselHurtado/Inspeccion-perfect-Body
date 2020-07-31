@@ -45,6 +45,8 @@ class CreateElementosReparadosTable extends Migration
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
             
             $table->string('observaciones')->nullable();
+            $table->string('foto')->nullable();
+            $table->longText('vitacora')->nullable();
             $table->string('fecha'); 
             $table->timestamps();
         });
