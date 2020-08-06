@@ -39,4 +39,8 @@ class Registro extends Model
     {
         return $this->hasMany('App\ElementosReparados','id_registro');
     }
+    public function bitacora()
+    {
+        return $this->hasMany('App\bitacora','id_registro');
+    }
 }

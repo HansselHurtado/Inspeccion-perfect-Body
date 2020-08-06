@@ -23,6 +23,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\ElementosReparados','user_id');
     }
+    public function bitacora()//funcion de relacion de unos a muchos
+    {
+        return $this->hasMany('App\bitacora','user_id');
+    }
 
     public static function authorizeRoles($roles){
         
@@ -41,7 +45,7 @@ class User extends Authenticatable
     
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','username','apellido',
     ];
 
     /**

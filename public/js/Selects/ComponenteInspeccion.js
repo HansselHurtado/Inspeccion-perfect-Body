@@ -139,7 +139,7 @@ function RoomInspection(room_id, component_prime_id ){
                         document.getElementById(`column${data.registros[i].component_id}`).innerHTML += `
                             </td>
                                 <td  style="text-align: center;" class=" mx-auto col-xs-12">
-                                    <input type="text" class="form-control form-control-user " name="observaciones${i+1}" placeholder="" id="">
+                                    <input type="text" class="form-control form-control-user " name="observaciones${i+1}" value="" id="">
                                     ${data.registros[i].foto == null ? `
                                         <div class="btn btn-sm float-left">
                                             <span class="float-left">Añadir evidencia</span>
@@ -156,7 +156,7 @@ function RoomInspection(room_id, component_prime_id ){
                         document.getElementById(`column${data.registros[i].component_id}`).innerHTML += `
                             </td>
                                 <td  style="text-align: center;" class=" mx-auto col-xs-12">
-                                    <input type="text" class="form-control form-control-user " name="observaciones${i+1}" placeholder="${data.registros[i].observaciones}" id="">
+                                    <input type="text" class="form-control form-control-user " name="observaciones${i+1}" value="${data.registros[i].observaciones}" id="">
                                     ${data.registros[i].foto == null ? `
                                     <div class="btn btn-sm float-left">
                                         <span class="float-left">Añadir evidencia</span>

@@ -33,7 +33,8 @@ Route::get('/floor/{id}/habitaciones', 'RoomController@InpectionFloor');
 Route::get('/habitaciones/{room_id}/inspeccionar/{component_prime_id}', 'inspectionController@InspeccionarHabitacion');
 Route::get('/habitacionesInspeccionadas/{room_id}/inspeccionar/{component_prime_id}', 'inspectionController@HabitacionInspeccionada');
 Route::get('/inspeccion/registros/reparar/{id_registro}','inspectionController@repararElemento');        
-Route::get('/inspeccion/registros/reparar/{id_registro}/vitacora','inspectionController@repararElementoVitacora');        
+Route::get('/inspeccion/registros/reparar/{id_registro}/bitacora','inspectionController@repararElementoBitacora');        
+Route::get('/inspeccion/registros/reparar/{id_elemento_reparado}/mostrar/bitacora','inspectionController@mostrarBitacora');        
 
  
 /*Route::group(['middleware' => 'auth:api'], function() {

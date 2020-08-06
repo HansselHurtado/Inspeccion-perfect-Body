@@ -51,6 +51,8 @@ class HomeController extends Controller
 
         $user = new User();
         $user->name = $request->name;
+        $user->apellido = $request->name;
+        $user->username = $request->name;
         $user->email = $request->email;
         $user->role_id = $request->role_id;
         $user->password = bcrypt($request->password);

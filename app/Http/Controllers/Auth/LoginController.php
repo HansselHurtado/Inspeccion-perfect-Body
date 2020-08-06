@@ -43,16 +43,32 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request){
+    protected function credentials(Request $request)
+    {
+        $login = $request->input($this->username());
+        // Comprobar si el input coincide con el formato de E-mail
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        return [
+            $field => $login,
+            'password' => $request->input('password')
+        ];
+    }
+    
+    public function username()
+    {
+        return 'login';
+    }
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))){
+    /*public function login(Request $request){
+
+        if(Auth::attempt(['email' => $request->email, 'username' => $request->username,'password' => $request->password], $request->get('remember'))){
 
             return Redirect('home');
         }
 
         return redirect()->route('login')->with('message4', 'Usuario o Contraseña incorrecta');
     }
-
+*/
     public function logout(){
         Auth::logout();
         return redirect('login')->with('message5', 'Sesion cerrada Correctamente');

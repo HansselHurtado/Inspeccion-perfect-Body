@@ -11,6 +11,7 @@ use App\Floor;
 use App\Room;
 use App\Registro;
 use App\User;
+use App\bitacora;
 use Carbon\Carbon;
 use App\ElementosReparados;
 use App\Mail\correoDeInspeccion;
@@ -32,7 +33,7 @@ class inspectionController extends Controller
         $this->middleware('auth')->only('index','componentInspetion','enviarCorreos','cambiar_estado_elemento',
         'cambiar_estado_habitacion','cambiar_estado_registro','registro','editarRegistroReporte','verRegistro',
         'revisarRegistroxPiso','revisarRegistroxPisoMalas','buscarXfecha','buscarRegistro','buscarRegistroMalas',
-        'repararMalas','verReparados'); 
+        'repararMalas','verReparados','verReparadosPrincipal','ElementverReparados'); 
         //$this->middleware('client')->only('byComponent','InspeccionarHabitacion','HabitacionInspeccionada','repararElemento');
     }
     /*public function __construct()
@@ -145,11 +146,7 @@ class inspectionController extends Controller
         $registro->estado_reparacion = 2;
         $registro->save();
     }
-    public function cambiar_estado_registro_vitacora($registro){
-        $registro = Registro::where('id_registro', $registro)->first();
-        $registro->estado_vitacora = 2;
-        $registro->save();
-    }
+   
     
     public function registro(Request $request){     
 
@@ -161,7 +158,7 @@ class inspectionController extends Controller
                     $file = $request->file("foto$i");               
                     $name = time().$file->getClientOriginalName();
                     $registro->foto = $name;
-                    $file->move(public_path().'/evidencias/', $name);                
+                    $file->move(public_path().'/images/evidencias/', $name);                
                 }             
                 $registro->floor_id = $request->input("floor_id");
                 $registro->room_id = $request->input("room_id");
@@ -173,7 +170,6 @@ class inspectionController extends Controller
                 $date = $date->format('Y-m-d');
                 $registro->fecha = $date;
                 $registro->estado_reparacion = 1;
-                $registro->estado_vitacora = 1;
                 $registro->save();
                 $this->enviarCorreos($request->input("state$i"), $request->input("component_id$i"), $request->input("room_id"));
                 $this->cambiar_estado_elemento($request->input("component_id$i"));    
@@ -193,7 +189,7 @@ class inspectionController extends Controller
                 $file = $request->file("foto$i");               
                 $name = time().$file->getClientOriginalName();
                 $registro->foto = $name;
-                $file->move(public_path().'/evidencias/', $name);                
+                $file->move(public_path().'/images/evidencias/', $name);                
             } 
             $registro->save();     
             $this->enviarCorreos($request->input("state$i"), $request->input("component_id$i"), $request->input("room_id"));
@@ -240,11 +236,13 @@ class inspectionController extends Controller
             $q->join('states','registros.state_id','=','states.state_id');
             $q->select('registros.id_registro','floors.floor_id','rooms.room_id','component_primes.component_prime_id','component_primes.name as NombreComponente',
                         'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
-                        'registros.observaciones','registros.fecha','registros.estado_reparacion','registros.estado_vitacora');
+                        'registros.observaciones','registros.fecha','registros.estado_reparacion');
             $q->where('registros.fecha','=',$date);
         }))->where('floor_id',$floor_id)->get();    
         
-        return view('inspection/revisarRegistroxPiso',compact('registros','date'));
+        $registro_mala = 0;
+        
+        return view('inspection/revisarRegistroxPiso',compact('registros','date','registro_mala'));
     }       
     
     public function buscarRegistroMalas($floor_id, $date){   
@@ -256,11 +254,14 @@ class inspectionController extends Controller
             $q->join('states','registros.state_id','=','states.state_id');
             $q->select('registros.id_registro','floors.floor_id','rooms.room_id','component_primes.component_prime_id','component_primes.name as NombreComponente',
                         'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
-                        'registros.observaciones','registros.fecha','registros.estado_reparacion','registros.estado_vitacora');
+                        'registros.observaciones','registros.fecha','registros.estado_reparacion');
             $q->where('registros.fecha','=',$date)->whereIn('registros.state_id',[2,5,8]);//whereIn se utliza como el metodo OR
         }))->where('floor_id',$floor_id)->get();
+
+        $registro_mala = 1;
+        return view('inspection/revisarRegistroxPiso',compact('registros','date','registro_mala'));
         
-        return view('inspection/revisarRegistroxPisoMalas',compact('registros','date'));  
+        //return view('inspection/revisarRegistroxPisoMalas',compact('registros','date'));  
     }
 
     public function repararElemento($id_registro){
@@ -274,27 +275,43 @@ class inspectionController extends Controller
                         ->where('registros.id_registro',$id_registro)->get();
     }
 
-    public function repararElementoVitacora($id_registro){
+    public function repararElementoBitacora($id_registro){
         return $raparar = DB::table('elementos_reparados')
                         ->join('components','elementos_reparados.component_id','=','components.component_id')
                         ->join('component_primes','elementos_reparados.component_prime_id','=','component_primes.component_prime_id')
                         ->join('states','elementos_reparados.state_id','=','states.state_id')
-                        ->select('elementos_reparados.id_registro','elementos_reparados.floor_id','elementos_reparados.room_id','component_primes.component_prime_id','component_primes.name as NombreComponente',
-                                'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
-                                'elementos_reparados.fecha','elementos_reparados.foto','elementos_reparados.vitacora','elementos_reparados.observaciones')
+                        ->select('elementos_reparados.id_registro',
+                                'elementos_reparados.floor_id','elementos_reparados.room_id',
+                                'component_primes.component_prime_id',
+                                'component_primes.name as NombreComponente','components.component_id',
+                                'components.name as nombreElemento','states.state_id','states.name as nombreEstado',
+                                'elementos_reparados.fecha','elementos_reparados.foto',
+                                'elementos_reparados.observaciones','elementos_reparados.id_elemento_reparado')
                         ->where('elementos_reparados.id_registro',$id_registro)->get();
     }
 
+    public function mostrarBitacora($id_registro){
 
-    public function repararMalas(Request $request){
+        return $bitacora = DB::table('bitacoras')
+                        ->join('registros','bitacoras.id_registro','=','registros.id_registro')
+                        ->join('components','registros.component_id','=','components.component_id')
+                        ->join('users','bitacoras.user_id','=','users.user_id')
+                        ->select('bitacoras.id_bitacora','bitacoras.fecha','bitacoras.bitacora','users.name as nombreUsers',
+                                'components.name as nombreElemento')
+                        ->where('bitacoras.id_registro',$id_registro)->get();
+    }
+
+    public function repararMalas(Request $request, $registro_mala){
         $reparado = ElementosReparados::where('id_registro',$request->input("id_registro"))->first();
+        $floor_id = $request->floor_id;
+        $date = $request->fecha;
         if($reparado == null){
             $reparar = new ElementosReparados();
             if($request->hasFile("evidencia_reparada")){                
                 $file = $request->file("evidencia_reparada");               
                 $name = time().$file->getClientOriginalName();
                 $reparar->foto = $name;
-                $file->move(public_path().'/evidencias_de_reparacion/', $name);                
+                $file->move(public_path().'/images/evidencias_de_reparacion/', $name);                
             } 
             $reparar->id_registro = $request->input("id_registro");
             $reparar->floor_id = $request->input("floor_id");
@@ -313,37 +330,38 @@ class inspectionController extends Controller
                 $file = $request->file("evidencia_reparada");               
                 $name = time().$file->getClientOriginalName();
                 $reparado->foto = $name;
-                $file->move(public_path().'/evidencias_de_reparacion/', $name);                
+                $file->move(public_path().'/images/evidencias_de_reparacion/', $name);                
             } 
             $reparado->observaciones = $request->input("Observaciones");
             $reparado->save();
+            if($registro_mala == 1){
+                return $this->buscarRegistroMalas($floor_id, $date);
+            }
+            return $this->buscarRegistro($floor_id, $date);
         } 
         $this->cambiar_estado_registro_reparacion($request->id_registro);
-        return redirect()->back();  
+        if($registro_mala == 1){
+            return $this->buscarRegistroMalas($floor_id, $date);
+        }
+        return $this->buscarRegistro($floor_id, $date);
     }
     
-    public function repararMalasVitacora(Request $request){
-        $reparado = ElementosReparados::where('id_registro',$request->input("id_registro"))->first();
-        if($reparado == null){
-            $reparar = new ElementosReparados();
-            $reparar->vitacora = $request->vitacora;
-            $reparar->id_registro = $request->input("id_registro");
-            $reparar->floor_id = $request->input("floor_id");
-            $reparar->room_id = $request->input("room_id");
-            $reparar->component_prime_id = $request->input("component_prime_id");
-            $reparar->component_id = $request->input("component_id");
-            $reparar->state_id = $request->input("state_id");
-            $date = Carbon::now()->locale('es');
-            $dat = $date->isoFormat('LLLL');
-            $reparar->fecha = $dat;
-            $reparar->user_id = auth()->id();
-            $reparar->save();
-        }else{
-            $reparado->vitacora = $request->vitacora;
-            $reparado->save();
+    
+    public function repararMalasBitacora(Request $request, $registro_mala){
+        $bitacora = new bitacora();
+        $bitacora->bitacora = $request->bitacora;
+        $bitacora->id_registro = $request->id_registro;
+        $bitacora->user_id = auth()->id();
+        $date = Carbon::now()->locale('es');
+        $dat = $date->isoFormat('LLLL');
+        $bitacora->fecha = $dat;
+        $bitacora->save();  
+        $floor_id = $request->floor_id;
+        $date = $request->fecha;
+        if($registro_mala == 1){
+            return $this->buscarRegistroMalas($floor_id, $date);
         }
-        $this->cambiar_estado_registro_vitacora($request->id_registro);
-        return redirect()->back();  
+        return $this->buscarRegistro($floor_id, $date);  
     }
 
     public function verReparados(){ 
@@ -365,6 +383,45 @@ class inspectionController extends Controller
                         
         return view('inspection/elementosReparados',compact('raparar'));  
 
+    }
+
+    public function verReparadosPrincipal(){
+        $raparar = DB::table('elementos_reparados')
+                    ->join('users','elementos_reparados.user_id','=','users.user_id')
+                    ->join('floors','elementos_reparados.floor_id','=','floors.floor_id')
+                    ->join('rooms','elementos_reparados.room_id','=','rooms.room_id')                        
+                    ->join('components','elementos_reparados.component_id','=','components.component_id')
+                    ->join('component_primes','elementos_reparados.component_prime_id','=','component_primes.component_prime_id')
+                    ->join('states','elementos_reparados.state_id','=','states.state_id')
+                    ->join('registros','elementos_reparados.id_registro','=','registros.id_registro')
+                    ->select('elementos_reparados.id_elemento_reparado','elementos_reparados.floor_id','elementos_reparados.room_id',
+                            'elementos_reparados.user_id','users.name as nombreUser','floors.name as nombrePiso','rooms.name as nombrehabitacion',
+                            'component_primes.component_prime_id','component_primes.name as NombreComponente',
+                            'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
+                            'elementos_reparados.id_registro','elementos_reparados.fecha','elementos_reparados.created_at','elementos_reparados.observaciones','registros.created_at as fecha_registro')
+                    ->orderBy('elementos_reparados.id_elemento_reparado','desc')->paginate(7);                        
+                        
+        return view('inspection/verElementosReparados',compact('raparar'));  
+    }
+    public function ElementverReparados($created_at){
+    
+        
+        return $raparar = DB::table('elementos_reparados')
+                    ->join('users','elementos_reparados.user_id','=','users.user_id')
+                    ->join('floors','elementos_reparados.floor_id','=','floors.floor_id')
+                    ->join('rooms','elementos_reparados.room_id','=','rooms.room_id')                        
+                    ->join('components','elementos_reparados.component_id','=','components.component_id')
+                    ->join('component_primes','elementos_reparados.component_prime_id','=','component_primes.component_prime_id')
+                    ->join('states','elementos_reparados.state_id','=','states.state_id')
+                    ->join('registros','elementos_reparados.id_registro','=','registros.id_registro')
+                    ->select('elementos_reparados.id_elemento_reparado','elementos_reparados.floor_id','elementos_reparados.room_id',
+                            'elementos_reparados.user_id','users.name as nombreUser','floors.name as nombrePiso','rooms.name as nombrehabitacion',
+                            'component_primes.component_prime_id','component_primes.name as NombreComponente',
+                            'components.component_id','components.name as nombreElemento','states.state_id','states.name as nombreEstado',
+                            'elementos_reparados.id_registro','elementos_reparados.fecha','elementos_reparados.observaciones','registros.created_at as fecha_registro')
+                    ->where('elementos_reparados.created_at',$created_at)->get();                        
+                        
+        return view('inspection/elementoReparado',compact('raparar'));  
     }
 
    /* public function contact(Request $request){

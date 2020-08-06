@@ -38,7 +38,6 @@ class CreateRegistrosTable extends Migration
             $table->string('foto')->nullable();            
             $table->string('observaciones')->nullable();
             $table->string('estado_reparacion')->nullable();
-            $table->string('estado_vitacora')->nullable();
             $table->string('fecha');         
             $table->timestamps();
         });

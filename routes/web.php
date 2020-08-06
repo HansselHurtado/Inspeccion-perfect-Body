@@ -52,9 +52,11 @@ Route::get('/inspeccion/registros/{floor_id}','inspectionController@revisarRegis
 Route::get('/inspeccion/registros/malas/{floor_id}','inspectionController@revisarRegistroxPisoMalas')->name('revisarRegistroxPisoMalas');
 Route::post('/inspeccion/registros/buscarFecha/{floor_id}','inspectionController@buscarXfecha')->name('buscarXfecha');
 Route::post('/inspeccion/registros/buscarFechaMala/{floor_id}','inspectionController@buscarXfechaMalas')->name('buscarXfechaMalas');
-Route::post('/inspeccion/registros/reparar/','inspectionController@repararMalas')->name('repararMalas');
-Route::post('/inspeccion/registros/reparar/vitacora','inspectionController@repararMalasVitacora')->name('repararMalasVitacora');
+Route::post('/inspeccion/registros/reparar/{registro_mala}','inspectionController@repararMalas')->name('repararMalas');
+Route::post('/inspeccion/registros/reparar/vitacora/{registro_mala}','inspectionController@repararMalasBitacora')->name('repararMalasBitacora');
 Route::get('/registros/verElementosReparados/','inspectionController@verReparados')->name('verReparados');
+Route::get('/registros/verElementosReparados/principal','inspectionController@verReparadosPrincipal')->name('verReparadosPrincipal');
+Route::get('/registros/verElementosReparados/principal/reparados/{created_at}','inspectionController@ElementverReparados')->name('ElementverReparados');
 
 
 //ruta de ver y crear pisos

@@ -10,23 +10,39 @@
         @endif
     @endforeach
     @if($i > 0)
-    
-        <div class="mb-4 d-flex justify-content-center align-items-center">               
-            <h5 class="m-0 font-weight-bold text-primary ">Inspecciones del {{$date}}</h5>       
-        </div>
+        @if($registro_mala == 0)
+            <div class="mb-4 d-flex justify-content-center align-items-center">               
+                <h5 class="m-0 font-weight-bold text-primary ">Inspecciones del {{$date}}</h5>       
+            </div>
+        @else
+            <div class="mb-4 d-flex justify-content-center align-items-center">               
+                <h5 class="m-0 font-weight-bold text-primary ">Inspecciones Malas del {{$date}}</h5>       
+            </div> 
+        @endif
         @foreach ($registros as $registro )
             @if(!$registro->registro->isEmpty())
                 <div class="card shadow mb-4">              
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 font-weight-bold text-primary">{{$registro->name}} </h5>
-                        <form method="POST" action={{ route('buscarXfecha',$registro->floor_id) }} class="w-75 d-flex justify-content-end">
-                            @csrf
-                            <div class="d-flex justify-content-between align-items-center">
-                                <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
-                                <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
-                                <button class="btn btn-primary " type="submit">buscar</button>
-                            </div>
-                        </form>
+                        @if($registro_mala == 0)
+                            <form method="POST" action={{ route('buscarXfecha',$registro->floor_id) }} class="w-75 d-flex justify-content-end">
+                                @csrf
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                                    <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
+                                    <button class="btn btn-primary " type="submit">buscar</button>
+                                </div>
+                            </form>
+                        @else
+                            <form method="POST" action={{ route('buscarXfechaMalas',$registro->floor_id) }} >
+                                @csrf
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                                    <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
+                                    <button class="btn btn-primary " type="submit">buscar</button>
+                                </div>
+                            </form>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -39,7 +55,7 @@
                                         <th style="text-align: center;" >Observaciones</th>
                                         <th style="text-align: center;" >Estado / Tiene</th>
                                         <th style="text-align: center;" >Reparar</th>
-                                        <th style="text-align: center;" >Vitacora</th>
+                                        <th style="text-align: center;" >Bitacora</th>
                                     </tr>
                                 </thead>
                                 <tbody>                               
@@ -74,7 +90,7 @@
                                                             <i class="fas fa-cogs pr-2" aria-hidden="true"></i>Reparar
                                                         </button>
                                                     @else
-                                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="ElementoReparado('{{$registros->id_registro}}') " data-toggle="modal" data-target="#verRegistroModal">
+                                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="ElementoReparado('{{$registros->id_registro}}','{{$registros->fecha}}') " data-toggle="modal" data-target="#verRegistroModal">
                                                             <i class="fas fa-check" aria-hidden="true"></i> Reparado
                                                         </button>
                                                     @endif                    
@@ -84,15 +100,9 @@
                                             </th>
                                             <th style="text-align: center;">
                                                 @if($registros->nombreEstado ==  "No" || $registros->nombreEstado ==  "Malo" || $registros->nombreEstado ==  "Sucio")
-                                                    @if($registros->estado_vitacora == 1)
-                                                        <button  class="btn btn-outline-info btn-rounded waves-effect" onclick="Vitacora('{{$registros->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal">
-                                                            <i class="fas fa-file-alt" aria-hidden="true"></i> Generar Vitacora
-                                                        </button>
-                                                    @else
-                                                        <button  class="btn btn-info btn-rounded waves-effect" onclick="VitacoraGenerada('{{$registros->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal">
-                                                            <i class="fas fa-check" aria-hidden="true"></i> Vitacora Generada
-                                                        </button>                                                    
-                                                    @endif
+                                                    <button  class="btn btn-outline-info btn-rounded waves-effect" onclick="Bitacora('{{$registros->id_registro}}','{{$registros->fecha}}')" data-toggle="modal" data-target="#vitacoraModal">
+                                                        <i class="fas fa-file-alt" aria-hidden="true"></i> Bitacora
+                                                    </button>
                                                 @else
                                                     ---
                                                 @endif                                     
@@ -107,26 +117,42 @@
             @endif     
         @endforeach 
     @else
-        <div class="card-body"> 
-            <h2>NO SE ENCONTRARON INSPECCIONES ESTE DIA {{$date}}</h2>
-        </div>      
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <form method="POST" action={{ route('buscarXfecha',$registro->floor_id) }} >
-                @csrf
-                <div class="d-flex justify-content-between align-items-center">
-                    <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
-                    <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
-                    <button class="btn btn-primary " type="submit">buscar</button>
-                </div>
-            </form>
-        </div>  
+        @if($registro_mala == 1)
+            <div class="card-body"> 
+                <h2>NO SE ENCONTRARON INSPECCIONES MALAS ESTE DIA {{$date}}</h2>
+            </div>      
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <form method="POST" action={{ route('buscarXfechaMalas',$registro->floor_id) }} >
+                    @csrf
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                        <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
+                        <button class="btn btn-primary " type="submit">buscar</button>
+                    </div>
+                </form>
+            </div>
+        @else
+            <div class="card-body"> 
+                <h2>NO SE ENCONTRARON INSPECCIONES ESTE DIA {{$date}}</h2>
+            </div>      
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <form method="POST" action={{ route('buscarXfecha',$registro->floor_id) }} >
+                    @csrf
+                    <div class="d-flex justify-content-between align-items-center">
+                        <label class="ml-25 w-50" for=""> Buscar por fecha</label>                      
+                        <input name="fecha" class="form-control form-control-user w-50 mx-3" type="date" required>
+                        <button class="btn btn-primary " type="submit">buscar</button>
+                    </div>
+                </form>
+            </div>  
+        @endif        
     @endif    
     
     <!--Modal reparacion-->
     
     <div class="modal fade" id="verRegistroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <form id="formulario_reparar" method="POST" action="{{ route('repararMalas')}}" enctype="multipart/form-data">
+      <div   class="modal-dialog" role="document">
+        <form id="formulario_reparar" method="POST" action="{{ route('repararMalas',$registro_mala)}}" enctype="multipart/form-data">
             @csrf  
             <div class="modal-content">
                 <div id="titulo" class="modal-header">
@@ -156,24 +182,27 @@
       </div>
     </div>
 
-    <!--Modal vitacora -->
+
+    <!--Modal Bitacora -->
     
     <div class="modal fade" id="vitacoraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <form id="formulario_reparar" method="POST" action="{{ route('repararMalasVitacora')}}" enctype="multipart/form-data">
+        <form id="formulario_reparar" method="POST" action="{{ route('repararMalasBitacora',$registro_mala)}}" enctype="multipart/form-data">
             @csrf  
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Vitacora Elemento <strong id="elemento_vitacora"></strong></h5>
+                    <h5 class="modal-title">Bitacora Elemento <strong id="elemento_vitacora"></strong></h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                     </button>
                 </div>
                 <div  class="modal-body">
                     <div class=" modal-body btn float-left">
-                        <label class="float-left" for=""> Escribir vitacora:</label>
+                        <label class="float-left" for=""> Escribir Bitacora:</label>
                         <div id="textVitacora">
-                            <textarea value="hola" class="form-control"  name="vitacora" id="" cols="30" rows="10" required></textarea>  
+                            <textarea value="hola" class="form-control"  name="bitacora" id="" cols="30" rows="10" required>
+                                    
+                            </textarea>  
                         </div>
                     </div>                                                                  
                 </div>

@@ -25,6 +25,8 @@ class ValidateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255','unique:users'],
+            'username' => ['required', 'string', 'max:50','min:3','unique:users'],
+            'apellido' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:3'],
             'role_id'=> 'required',

@@ -4,7 +4,9 @@
 
 @section('content')
 
-
+<div class="col-lg-6 d-none d-lg-block ">
+  <img style="height: 380px;" class="card-img-top mx-auto d-block" src="{!! asset('img/logo_perfect.png') !!}" alt="Card image cap">
+</div>   
 <div class="col-lg-6">
   <div class="p-5">
     <div class="text-center">
@@ -14,9 +16,9 @@
     <form class="user" method="POST" action="{{ route('login') }}" enctype="multipart/form-data">
       @csrf
       <div  class="form-group">
-        <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="email" aria-describedby="emailHelp"  name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder=" Direccion electrocnica">
+        <input type="login" class="form-control form-control-user @error('login') is-invalid @enderror" id="login"   name="login" value="{{ old('login') }}"  autofocus placeholder=" Nombre de usuario o Correo electronico">
         
-        @error('email')
+        @error('login')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
           </span>

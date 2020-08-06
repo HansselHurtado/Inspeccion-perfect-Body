@@ -21,6 +21,7 @@ function RepararElemento(id_registro){
         url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}`,
         success:function(data){
             console.log(id_registro)
+            console.log(data)
             document.getElementById('titulo').innerHTML= `
                 <h5 class="modal-title">Reparar Elemento <strong>${data[0].nombreElemento}</strong></h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -37,7 +38,7 @@ function RepararElemento(id_registro){
             `;
             if(data[0].foto != null){
                 document.getElementById('evidencias').innerHTML= `
-                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/evidencias/${data[0].foto}" alt="">
+                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/images/evidencias/${data[0].foto}" alt="">
                 `;
             }else{
                 document.getElementById('no_hay').innerHTML= `
@@ -54,7 +55,8 @@ function RepararElemento(id_registro){
 }
 
 
-function ElementoReparado(id_registro){
+function ElementoReparado(id_registro, fecha){
+    
     document.getElementById('estado_actual').innerHTML=" ";
     document.getElementById('evidencia_repara').innerHTML= " ";
     document.getElementById('evidencia_reparada').innerHTML=`
@@ -62,9 +64,11 @@ function ElementoReparado(id_registro){
         <div id="evidencia_reparacion">                                     
         </div>
         `;  
+        console.log(id_registro)
+        console.log(fecha)
 
     $.ajax({
-        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/vitacora`,
+        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/bitacora`,
         success:function(data){
             console.log(data)
             document.getElementById('titulo').innerHTML= `
@@ -73,6 +77,7 @@ function ElementoReparado(id_registro){
                     <span aria-hidden="true">×</span>
                 </button>
                 <input style="display: none;" name="id_registro" value="${data[0].id_registro}" type="text">
+                <input style="display: none;" name="fecha" value="${fecha}" type="text">
                 <input style="display: none;" name="floor_id" value="${data[0].floor_id}" type="text">
                 <input style="display: none;" name="room_id" value="${data[0].room_id}" type="text">
                 <input style="display: none;" name="component_prime_id" value="${data[0].component_prime_id}" type="text">
@@ -93,7 +98,7 @@ function ElementoReparado(id_registro){
             
             if(data[0].foto != null){
                 document.getElementById('evidencia_reparacion').innerHTML=`
-                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/evidencias_de_reparacion/${data[0].foto}" alt="">
+                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/images/evidencias_de_reparacion/${data[0].foto}" alt="">
                     <span class="float-left">Editar</span>
                     <input class="form-control-file" type="file" name="evidencia_reparada">
                 `;
@@ -112,21 +117,21 @@ function ElementoReparado(id_registro){
     document.getElementById('button_editar').innerHTML= "Editar";
 }
 
-function Vitacora(id_registro){
+function Bitacora(id_registro, fecha){
     document.getElementById('textVitacora').innerHTML=`
-        <textarea class="form-control"  name="vitacora" id="" cols="50" rows="10" required></textarea>
+        <textarea class="form-control"  name="bitacora" id="" cols="50" rows="10" required></textarea>
         `;
+        console.log(id_registro)
     $.ajax({
         url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}`,
         success:function(data){
             console.log(id_registro)
+            console.log(data)
             document.getElementById('elemento_vitacora').innerHTML= `${data[0].nombreElemento}
-            <input style="display: none;" name="id_registro" value="${data[0].id_registro}" type="text">
-            <input style="display: none;" name="floor_id" value="${data[0].floor_id}" type="text">
-            <input style="display: none;" name="room_id" value="${data[0].room_id}" type="text">
-            <input style="display: none;" name="component_prime_id" value="${data[0].component_prime_id}" type="text">
-            <input style="display: none;" name="component_id" value="${data[0].component_id}" type="text">
-            <input style="display: none;" name="state_id" value="${data[0].state_id}" type="text">    
+            <input style="display: none;" name="id_registro" value="${data[0].id_registro}" type="text"> 
+            <input style="display: none;" name="fecha" value="${fecha}" type="text">
+            <input style="display: none;" name="floor_id" value="${data[0].floor_id}" type="text">   
+            <input style="display: none;" name="state_id" value="${data[0].state_id}" type="text">   
             `;            
         },
         error:function(error){
@@ -137,49 +142,42 @@ function Vitacora(id_registro){
 
 }
 
-function VitacoraGenerada(id_registro){
-    $.ajax({
-        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/vitacora`,
-        success:function(data){
-            console.log(id_registro)
-            console.log(data);
-            document.getElementById('elemento_vitacora').innerHTML= `${data[0].nombreElemento}`;
-            document.getElementById('textVitacora').innerHTML= `
-                <textarea  class="form-control" name="vitacora" id="" cols="50" rows="10">${data[0].vitacora}</textarea> 
-                <input style="display: none;" name="id_registro" value="${data[0].id_registro}" type="text">
-                <input style="display: none;" name="floor_id" value="${data[0].floor_id}" type="text">
-                <input style="display: none;" name="room_id" value="${data[0].room_id}" type="text">
-                <input style="display: none;" name="component_prime_id" value="${data[0].component_prime_id}" type="text">
-                <input style="display: none;" name="component_id" value="${data[0].component_id}" type="text">
-                <input style="display: none;" name="state_id" value="${data[0].state_id}" type="text">    `;            
-        },
-        error:function(error){
-            console.log(error)
-        }
-    })
-    document.getElementById('button').innerHTML= "Editar";
 
-}
 
-function VitacoraGenerada_elemento_reparado(id_registro){
+function BitacoraGenerada_elemento_reparado(id_elemento_reparado){
+    console.log(id_elemento_reparado);
+    document.getElementById('titulo_vitacora_Or_foto').innerHTML= "";
+    document.getElementById('textVitacora_reparado').innerHTML= " ";
+    document.getElementById('textVitacora_reparado').innerHTM =  `
+                    <textarea  class="form-control" name="bitacora" id="" cols="50" rows="5" readonly>
+                
+                    </textarea>                 
+                `;  
     $.ajax({
-        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/vitacora`,
+        url:`http://${ip}/api/inspeccion/registros/reparar/${id_elemento_reparado}/mostrar/bitacora`,
         success:function(data){
-            console.log(id_registro)
             console.log(data);
-            document.getElementById('titulo_vitacora_Or_foto').innerHTML= `
-                Vitacora Elemento <strong >${data[0].nombreElemento}</strong>
-                `;
-            if(data[0].vitacora !=null){
-                document.getElementById('textVitacora_reparado').innerHTML= `
-                    <textarea  class="form-control" name="vitacora" id="" cols="50" rows="10" readonly>${data[0].vitacora}</textarea> 
-                    `;  
-            }else{
-                document.getElementById('textVitacora_reparado').innerHTML= `
-                    <h4 class="modal-title"> ¡No se ha escrito ninguna vitacora!</h4>
+            if(data.length != 0){
+                document.getElementById('titulo_vitacora_Or_foto').innerHTML= `
+                    Bitacora Elemento <strong >${data[0].nombreElemento}</strong>
                     `;
-            }
-                      
+            
+                data.forEach(elemento => {
+                    if(elemento.bitacora !=null){
+                        document.getElementById('textVitacora_reparado').innerHTML += `
+                            <textarea  class="form-control" name="bitacora" id="" cols="50" rows="5" readonly>
+                            ${elemento.fecha} 
+                            ,${elemento.nombreUsers} dice:
+                            ${elemento.bitacora}
+                            </textarea> 
+                        `;
+                    }
+                });    
+            }else{
+                document.getElementById('textVitacora_reparado').innerHTML = `
+                            <h4 class="modal-title"> ¡No se ha escrito ninguna vitacora!</h4>
+                            `;
+            }                        
         },
         error:function(error){
             console.log(error)
@@ -189,7 +187,7 @@ function VitacoraGenerada_elemento_reparado(id_registro){
 
 function foto_elemento_reparado(id_registro){
     $.ajax({
-        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/vitacora`,
+        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/bitacora`,
         success:function(data){
             console.log(id_registro)
             console.log(data);
@@ -198,16 +196,17 @@ function foto_elemento_reparado(id_registro){
                 `;
             if(data[0].foto !=null){
                 document.getElementById('textVitacora_reparado').innerHTML= `
-                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/evidencias_de_reparacion/${data[0].foto}" alt=""> 
+                    <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/images/evidencias_de_reparacion/${data[0].foto}" alt=""> 
                     `;  
             }else{
                 document.getElementById('textVitacora_reparado').innerHTML= `
                     <h4 class="modal-title"> ¡No hay foto de reparacion!</h4>
                 `;
-            }                      
+            } 
         },
         error:function(error){
             console.log(error)
         }
+
     });    
 }

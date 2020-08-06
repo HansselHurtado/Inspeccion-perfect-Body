@@ -126,7 +126,7 @@
             @if(auth()->user()->role_id == 1)
               <a class="collapse-item" href="{{route('registros')}}">Registros de Inspecciones</a>
             @endif            
-              <a class="collapse-item" href="{{route('verReparados')}}">Registros Reparados</a>            
+              <a class="collapse-item" href="{{route('verReparadosPrincipal')}}">Registros Reparados</a>            
             <div class="collapse-divider"></div>            
           </div>
         </div>

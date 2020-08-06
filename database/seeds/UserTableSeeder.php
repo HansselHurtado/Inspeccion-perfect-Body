@@ -14,14 +14,18 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 		$user = new User();//creamos un nuevo usuario de tipo admin
-    	$user->name = "Admin";
+    	$user->name = "Admin principal";
+    	$user->apellido = "super admin";
+    	$user->username = "Admin";
     	$user->email = "Admin@email.com";
 		$user->password = bcrypt('perfect');//aqui incriptamos la contraseña
 		$user->role_id = '1';
 		$user->save();
 
 		$user = new User();//creamos un nuevo usuario
-    	$user->name = "User";
+		$user->name = "User Normal";
+		$user->apellido = "super user";
+    	$user->username = "user";
     	$user->email = "user@email.com";
 		$user->password = bcrypt('perfect');//aqui incriptamos la contraseña
 		$user->role_id = '2';

@@ -46,7 +46,6 @@ class CreateElementosReparadosTable extends Migration
             
             $table->string('observaciones')->nullable();
             $table->string('foto')->nullable();
-            $table->longText('vitacora')->nullable();
             $table->string('fecha'); 
             $table->timestamps();
         });

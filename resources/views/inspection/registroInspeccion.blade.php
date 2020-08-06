@@ -47,7 +47,7 @@
                         </span>
                         <span class="text">Revisar</span>
                       </a>
-                    </td>                 
+                    </td>               
 
                 </tr>                
                 @endforeach

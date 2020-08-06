@@ -29,9 +29,7 @@
                     <div style="border-radius: 40px; height: 500px;" class="card o-hidden border-0 shadow-lg my-5">
                         <div class="card-body p-0">
                             <div class="row">
-                                <div class="col-lg-6 d-none d-lg-block ">
-                                    <img style="height: 380px;" class="card-img-top mx-auto d-block" src="{!! asset('img/logo_perfect.png') !!}" alt="Card image cap">
-                                </div>                                
+                                                             
                                 @yield('content')
                             </div>
                         </div>
