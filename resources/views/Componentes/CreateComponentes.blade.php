@@ -62,7 +62,7 @@
               <input type="text" class="form-control form-control-user" name="description" placeholder="Descripcion">
             </div>    
             <button  type="submit" style="margin-top: 30px;" class="btn btn-primary btn-user btn-block">
-            Guardar
+             Guardar
             </button>          
         </form>
       @endif

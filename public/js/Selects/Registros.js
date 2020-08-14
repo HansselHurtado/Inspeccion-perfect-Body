@@ -35,6 +35,7 @@ function RepararElemento(id_registro){
             <input style="display: none;" name="component_prime_id" value="${data[0].component_prime_id}" type="text">
             <input style="display: none;" name="component_id" value="${data[0].component_id}" type="text">
             <input style="display: none;" name="state_id" value="${data[0].state_id}" type="text">        
+            <input style="display: none;" name="fecha" value="${data[0].fecha}" type="text">        
             `;
             if(data[0].foto != null){
                 document.getElementById('evidencias').innerHTML= `
@@ -86,12 +87,12 @@ function ElementoReparado(id_registro, fecha){
                 `;
             if(data[0].observaciones != null){
                 document.getElementById('observaciones_reparacion').innerHTML=`
-                <label for="">  Observaciones de Reparacion:</label>
+                <label for="">  Observaciones de Reparación:</label>
                 <input name="Observaciones" class="form-control form-control-user w-75" type="text" value="${data[0].observaciones} "> 
                 `;
             }else{
                 document.getElementById('observaciones_reparacion').innerHTML=`
-                <label for="">  Observaciones de Reparacion:</label>
+                <label for="">  Observaciones de Reparación:</label>
                 <input name="Observaciones" class="form-control form-control-user w-75" type="text" placeholder="No hay observaciones"> 
                 `;
             }
@@ -100,13 +101,16 @@ function ElementoReparado(id_registro, fecha){
                 document.getElementById('evidencia_reparacion').innerHTML=`
                     <img style="height: 250px; width: 400px; background-color:#EFEFEF; margin: 15px; " class="card-img-top img-thumbnail d-block" src="/images/evidencias_de_reparacion/${data[0].foto}" alt="">
                     <span class="float-left">Editar</span>
-                    <input class="form-control-file" type="file" name="evidencia_reparada">
+                    <input class="form-control-file" type="file" name="evidencia_reparada"><br>
+                    <span class="float-left">Fecha de reparción: ${data[0].fecha} </span>
+                    
                 `;
             }else{
                 document.getElementById('reparacion_evidencia').innerHTML=`
-                    No hay Evidencia de reparacion                    
+                    No hay Evidencia de reparación                    
                     <input class="form-control-file" type="file" name="evidencia_reparada">
-                    <span class="float-left">Añadir</span>             
+                    <span class="float-left">Añadir</span><br>
+                    <span class="float-left">Fecha de reparción: ${data[0].fecha} </span>          
                 `;
             }                
         },
@@ -144,17 +148,16 @@ function Bitacora(id_registro, fecha){
 
 
 
-function BitacoraGenerada_elemento_reparado(id_elemento_reparado){
-    console.log(id_elemento_reparado);
+function BitacoraGenerada_elemento_reparado(id_registro){
+    console.log(id_registro);
     document.getElementById('titulo_vitacora_Or_foto').innerHTML= "";
     document.getElementById('textVitacora_reparado').innerHTML= " ";
     document.getElementById('textVitacora_reparado').innerHTM =  `
-                    <textarea  class="form-control" name="bitacora" id="" cols="50" rows="5" readonly>
-                
+                    <textarea  class="form-control" name="bitacora" id="" cols="50" rows="5" readonly>                
                     </textarea>                 
                 `;  
     $.ajax({
-        url:`http://${ip}/api/inspeccion/registros/reparar/${id_elemento_reparado}/mostrar/bitacora`,
+        url:`http://${ip}/api/inspeccion/registros/reparar/${id_registro}/mostrar/bitacora`,
         success:function(data){
             console.log(data);
             if(data.length != 0){
@@ -192,7 +195,7 @@ function foto_elemento_reparado(id_registro){
             console.log(id_registro)
             console.log(data);
             document.getElementById('titulo_vitacora_Or_foto').innerHTML= `
-                Foto de reparacion Elemento <strong >${data[0].nombreElemento}</strong>
+                Foto de reparación Elemento <strong >${data[0].nombreElemento}</strong>
                 `;
             if(data[0].foto !=null){
                 document.getElementById('textVitacora_reparado').innerHTML= `
@@ -200,7 +203,7 @@ function foto_elemento_reparado(id_registro){
                     `;  
             }else{
                 document.getElementById('textVitacora_reparado').innerHTML= `
-                    <h4 class="modal-title"> ¡No hay foto de reparacion!</h4>
+                    <h4 class="modal-title"> ¡No hay foto de reparación!</h4>
                 `;
             } 
         },

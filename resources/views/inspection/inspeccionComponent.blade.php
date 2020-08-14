@@ -2,6 +2,7 @@
 
 @section('content')
 @include('modals/modal')  
+@include('modals/modal_ronda_de_seguridad')  
 @include('spiners/spiner')
 
     <div class="card shadow mb-4 row">
@@ -9,7 +10,7 @@
             @if ($rooms->estado_de_inspeccion == 1)
                 <h3 class="m-0 font-weight-bold text-primary">Inspeccionar Componenetes</h3><hr>                
             @else
-                <h3 class="m-0 font-weight-bold text-primary">Habitacion Inspeccionda el dia de Hoy</h3><hr>                
+                <h3 class="m-0 font-weight-bold text-primary">Habitación Inspeccionda el dia de Hoy</h3><hr>                
             @endif
             <h5 class="m-0 font-weight-bold text-primary">{{$rooms->name}} - {{$floors[0]->piso}}</h5>
         </div>
@@ -49,7 +50,22 @@
                                 @endif                                
                             </div>
                         </div>            
-                    @endforeach      
+                    @endforeach 
+                    <div class="card flex-row justify-content-lg-between justify-content-md-around justify-content-sm-center border-0 flex-wrap">
+                        <div class="card shadow p-3 mb-5 bg-white rounded d-sm-block" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Ronda de Seguridad</h5>
+                                <p class="card-text">esta es la lista de chequeo de ronda de seguridad del paciente</p>
+                                <button  value="" onclick="preguntas('{{$rooms->room_id}}');" class=" btn-block btn btn-icon-split justify-content-start btn-primary"  
+                                    data-toggle="modal" data-target="#Modal_ronda_de_seguridad">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                    <span class="text ">Preguntar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>     
                 </div>
             </div>
         </div>  

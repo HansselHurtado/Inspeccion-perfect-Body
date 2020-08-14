@@ -9,4 +9,5 @@
   <script src="{!! asset('js/Selects/Modal_de_Eliminar.js') !!}"></script>
   <script src="{!! asset('js/Selects/Registros.js') !!}"></script>
   <script src="{!! asset('js/Selects/SelectCreateComponentes.js') !!}"></script>
+  <script src="{!! asset('js/Selects/ver_usuario.js') !!}"></script>
 @endsection

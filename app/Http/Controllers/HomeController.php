@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('ver_usuario');
     }
 
     /**
@@ -48,11 +48,11 @@ class HomeController extends Controller
 
     public function registroNuevo(ValidateUserRequest $request)
     { 
-
+        
         $user = new User();
         $user->name = $request->name;
-        $user->apellido = $request->name;
-        $user->username = $request->name;
+        $user->apellido = $request->apellido;
+        $user->username = $request->username;
         $user->email = $request->email;
         $user->role_id = $request->role_id;
         $user->password = bcrypt($request->password);
@@ -71,17 +71,42 @@ class HomeController extends Controller
     
     public function ver_usuarios(Request $request){
 
-        //return auth()->user()->role_id;
         User::authorizeRoles(1);
         //user()->authorizeRoles(['admin', ]);
 
         $user = DB::table('users')
                     ->join('roles','users.role_id','=','roles.role_id')
-                    ->select('users.user_id','users.name','users.email','roles.name as role')
+                    ->select('users.user_id','users.name','users.apellido','users.email','roles.name as role')
                     ->orderBy('users.user_id')
                     ->paginate(5);
         return view('auth/verusuarios',compact('user'));
         
+    }
+
+    public function ver_usuario($id_user){
+        return $user = DB::table('users')
+                    ->join('roles','users.role_id','=','roles.role_id')
+                    ->select('users.user_id','users.name','users.username','users.apellido','users.email','roles.name as role')
+                    ->where('users.user_id',$id_user)
+                    ->get();
+    }
+
+    public function cambiar_contrasena(Request $request){
+        User::authorizeRoles(1);
+        $user = User::findOrFail($request->user_id); 
+        if($request->password == null && $request->confirme_password == null) {
+            return redirect()->route('verUsarios');
+        }
+        if($user->user_id == 1){
+            return redirect()->route('verUsarios')->with('message6',' No se puede Cambiar la contraseña al Administrador');            
+        }        
+        if($request->password == $request->confirme_password){
+            $user->password = bcrypt($request->password);
+            $user->save();
+            return redirect()->route('verUsarios')->with('message','Contraseña Actulizada correctamente');
+        }else{            
+            return redirect()->route('verUsarios')->with('message6','Las contraseñas no coinciden');
+        }
     }
 
     public function edit($id){
@@ -90,7 +115,8 @@ class HomeController extends Controller
         $role = Role::all();
         $user = DB::table('users')
                 ->join('roles','users.role_id','=','roles.role_id')
-                ->select('users.user_id','users.name','users.email','roles.role_id as roleId','roles.name as role')
+                ->select('users.user_id','users.name','users.username','users.password',
+                'users.email','users.apellido','roles.role_id as roleId','roles.name as role')
                 ->where('users.user_id','=', $id)
                 ->get();
         return view('auth/editUser', compact('user','role'));
@@ -98,14 +124,15 @@ class HomeController extends Controller
 
     public function updateUser(Request $request){
 
-        $user = User::where('user_id', '=', $request->user_id)->first();
-
+        $user = User::where('user_id', $request->user_id)->first();
         if($user->user_id == 1){
             return redirect()->route('verUsarios')->with('message6',' No se puede Editar el Usuario Administrador');            
         } 
         $user->name = $request->name;
+        $user->apellido = $request->apellido;
+        $user->username = $request->username;
         $user->email = $request->email;
-        $user->role_id = $request->role_id;        
+        $user->role_id = $request->role_id;       
         $user->save();
         return redirect()->route('verUsarios')->with('message','Usuario actualizado correctamente');
         //return redirect()->route('VerPisos',['floor_id'=>$floor->floor_id])->with('message4','Piso actualizado correctamente');//cuando una vista tiene id

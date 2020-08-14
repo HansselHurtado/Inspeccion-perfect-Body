@@ -30,9 +30,8 @@ Route::post('/home/registro/','HomeController@registroNuevo')->name('registrar')
 Route::get('/ver-usuarios','HomeController@ver_usuarios')->name('verUsarios');
 Route::get('/ver-usuarios/editar/{role_id}','HomeController@edit')->name('editarUsuario');
 Route::put('/ver-usuarios/editar','HomeController@updateUser')->name('updateUser');
-Route::delete('/ver-usuarios/eliminar/{user_id}','HomeController@delet')->name('EliminarUsuario');
-
-
+Route::delete('/ver-usuarios/eliminar/{user_id}','HomeController@delet');
+Route::put('/ver-usuarios/cambiar-contrasena','HomeController@cambiar_contrasena');
 
 Route::group(['namespace' => 'Auth'], function () {
 
@@ -56,7 +55,10 @@ Route::post('/inspeccion/registros/reparar/{registro_mala}','inspectionControlle
 Route::post('/inspeccion/registros/reparar/vitacora/{registro_mala}','inspectionController@repararMalasBitacora')->name('repararMalasBitacora');
 Route::get('/registros/verElementosReparados/','inspectionController@verReparados')->name('verReparados');
 Route::get('/registros/verElementosReparados/principal','inspectionController@verReparadosPrincipal')->name('verReparadosPrincipal');
-Route::get('/registros/verElementosReparados/principal/reparados/{created_at}','inspectionController@ElementverReparados')->name('ElementverReparados');
+Route::get('/registros/verElementosReparados/principal/reparados/{id_registro}','inspectionController@ElementverReparados')->name('ElementverReparados');
+Route::post('/inspeccion/inspeccionar/registrar_preguntas','inspectionController@registro_de_preguntas')->name('registro_de_preguntas');
+Route::get('/registros/resultados/ronda-de-seguridad','inspectionController@registro_de_respuesta')->name('registro_de_respuesta');
+
 
 
 //ruta de ver y crear pisos

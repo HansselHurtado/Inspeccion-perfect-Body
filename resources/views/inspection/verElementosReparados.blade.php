@@ -14,7 +14,7 @@
                         <thead>
                             <tr style="text-align: center;" class="bg-primary text-light">
                                 <th>Elemento</th>                                    
-                                <th>Piso</th>
+                                <th>Fecha de inspección</th>
                                 <th>Habitacion</th>                            
                                 <th>Revisar</th>  
                                 <th>Bitacora</th>                         
@@ -24,15 +24,20 @@
                             @foreach ($raparar as $repara )   
                                 <tr style="text-align: center;">                                            
                                     <th>{{$repara->nombreElemento}}</th>
-                                    <th>{{$repara->nombrePiso}}</th>
-                                    <th>{{$repara->nombrehabitacion}}</th>                                    
-                                    <th style="text-align: center;"> 
-                                        <a href="{{route('ElementverReparados',$repara->created_at)}}" class="btn btn-info btn-rounded waves-effect">
-                                            <i class="fas fa-eye" aria-hidden="true"></i>
-                                        </a> 
+                                    <th>{{$repara->fecha}}</th>
+                                    <th>{{$repara->nombrehabitacion}}, {{$repara->nombrePiso}}</th>                                    
+                                    <th style="text-align: center;">
+                                        @if ($repara->estado_reparacion == 1)
+                                            <span class="text-danger">No ha sido reparado</span>
+                                        @else
+                                            <a href="{{route('ElementverReparados',$repara->id_registro)}}" class="btn btn-info btn-rounded waves-effect">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                        @endif
+                                         
                                     </th>
                                     <th style="text-align: center;"> 
-                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="BitacoraGenerada_elemento_reparado('{{$repara->id_elemento_reparado}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
+                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="BitacoraGenerada_elemento_reparado('{{$repara->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
                                             <i class="fas fa-eye" aria-hidden="true"></i>
                                         </button> 
                                     </th>

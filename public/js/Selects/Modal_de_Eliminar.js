@@ -20,14 +20,14 @@ function EliminarPiso(floor_id, floor_name){
     formulario.setAttribute('action', 'http://'+ip+'/Ver-Piso/eliminar/'+floor_id)
 }
 
-function EliminarUser(user_id, user_name){
+function EliminarUser(user_id, user_name, user_apellido){
 
     console.log(user_id)
     console.log(user_name)
     
-    document.getElementById('usuario_name').innerHTML= user_name;
-
-    var formulario = document.getElementById('formulario');
+    document.getElementById('titulo_user_profile').innerHTML=` ${user_name} ${user_apellido}`;
+    var formulario = document.getElementById('formulario_eliminar_user');
     formulario.setAttribute('action', 'http://'+ip+'/ver-usuarios/eliminar/'+user_id)
+    
     
 }

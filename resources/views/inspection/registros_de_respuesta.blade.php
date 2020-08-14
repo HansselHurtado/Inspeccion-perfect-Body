@@ -12,43 +12,32 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
-                            <tr class="bg-primary text-light">
+                            <tr style="text-align: center;" class="bg-primary text-light">
                                 <th>Elemento</th>                                    
-                                <th>Piso</th>
-                                <th>Habitacion</th>
-                                <th>Estado Anterior</th>
-                                <th>Fecha de Reporte</th>
-                                <th>Fecha de Reparacion</th>
-                                <th>Responsable</th>
-                                <th>Observaciones de Reparacion</th>
-                                <th>Bitacora</th>
-                                <th>Evidencia</th>                               
+                                <th>Fecha de inspección</th>
+                                <th>Habitacion</th>                            
+                                <th>Revisar</th>  
+                                <th>Bitacora</th>                         
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($raparar as $repara )   
-                                <tr>                                            
+                                <tr style="text-align: center;">                                            
                                     <th>{{$repara->nombreElemento}}</th>
-                                    <th>{{$repara->nombrePiso}}</th>
-                                    <th>{{$repara->nombrehabitacion}}</th>
-                                    <th>{{$repara->nombreEstado}}</th>
-                                    <th>{{$repara->fecha_registro}}</th>
                                     <th>{{$repara->fecha}}</th>
-                                    <th style="text-align: center;">{{$repara->nombreUser}}</th>
+                                    <th>{{$repara->nombrehabitacion}}, {{$repara->nombrePiso}}</th>                                    
                                     <th style="text-align: center;">
-                                        @if(!strlen($repara->observaciones) == 0)
-                                            {{$repara->observaciones}}
+                                        @if ($repara->estado_reparacion == 1)
+                                            <span class="text-danger">No ha sido reparado</span>
                                         @else
-                                            --
+                                            <a href="{{route('ElementverReparados',$repara->id_registro)}}" class="btn btn-info btn-rounded waves-effect">
+                                                <i class="fas fa-eye" aria-hidden="true"></i>
+                                            </a>
                                         @endif
+                                         
                                     </th>
                                     <th style="text-align: center;"> 
-                                        <button  class="btn btn-info btn-rounded waves-effect" onclick="BitacoraGenerada_elemento_reparado('{{$repara->id_elemento_reparado}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
-                                            <i class="fas fa-eye" aria-hidden="true"></i>
-                                        </button> 
-                                    </th>
-                                    <th style="text-align: center;"> 
-                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="foto_elemento_reparado('{{$repara->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
+                                        <button  class="btn btn-success btn-rounded waves-effect" onclick="BitacoraGenerada_elemento_reparado('{{$repara->id_registro}}')" data-toggle="modal" data-target="#vitacoraModal_reparado">
                                             <i class="fas fa-eye" aria-hidden="true"></i>
                                         </button> 
                                     </th>

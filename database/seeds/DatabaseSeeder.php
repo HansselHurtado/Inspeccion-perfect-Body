@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoomSeeder::class);
 
-        $this->call(ElementSeeder::class);        
+        $this->call(ElementSeeder::class);  
+        
+        $this->call(PreguntasSeeder::class);        
+        
+        $this->call(RespuestaSeeder::class);
     }
 }

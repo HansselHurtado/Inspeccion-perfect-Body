@@ -194,3 +194,48 @@ function RoomInspection(room_id, component_prime_id ){
         }
     })
 }
+
+function preguntas(room_id){
+    console.log(room_id)
+    document.getElementById('contenido3').innerHTML = "";
+
+    $.ajax({
+        url:`http://${ip}/api/inspeccion/registros/preguntas`,
+        success:function(data){
+            console.log(data);
+            if(data.preguntas.length != 0){
+                for(i=0; i<data.preguntas.length; i++){
+                    document.getElementById('contenido3').innerHTML += `                   
+                        
+                        <tr id="column${data.preguntas[i].id_pregunta}">
+                            <td>${i+1}</td>                                        
+                            <td>
+                                ${data.preguntas[i].pregunta}
+                            </td>
+                            <td class="d-flex flex-column " id="tiene3${data.preguntas[i].id_pregunta}"> 
+                            <input style="display: none;" name="pregunta${i+1}" value="${data.preguntas[i].id_pregunta}" type="text">                       
+                            <input style="display: none;" name="data_length" value="${data.preguntas.length}" type="text">                       
+                            <input style="display: none;" name="room_id" value="${room_id}" type="text">                       
+                   
+                    `;
+                    data.respuesta.forEach(respuestas => {
+                        document.getElementById(`tiene3${data.preguntas[i].id_pregunta}`).innerHTML += `                             
+                            <div class="radio">
+                                <label><input required type="radio" name="respuesta${i+1}" value="${respuestas.id_respuesta}"> ${respuestas.respuesta}</label>
+                            </div> 
+                        `;                                     
+                    });              
+                }
+            }else{
+                document.getElementById('contenido3').innerHTML=  ` <h3> No hay preguntas</h3> ` ;
+            }    
+            
+
+        },
+        error:function(error){
+            console.log(error)
+        }
+    });
+
+
+}

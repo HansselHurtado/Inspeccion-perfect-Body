@@ -14,7 +14,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 		$user = new User();//creamos un nuevo usuario de tipo admin
-    	$user->name = "Admin principal";
+    	$user->name = "Admin";
     	$user->apellido = "super admin";
     	$user->username = "Admin";
     	$user->email = "Admin@email.com";

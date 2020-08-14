@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -127,6 +127,7 @@
               <a class="collapse-item" href="{{route('registros')}}">Registros de Inspecciones</a>
             @endif            
               <a class="collapse-item" href="{{route('verReparadosPrincipal')}}">Registros Reparados</a>            
+              <a class="collapse-item" href="{{route('registro_de_respuesta')}}">Ronda de seguridad</a>            
             <div class="collapse-divider"></div>            
           </div>
         </div>
@@ -321,7 +322,7 @@
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                   <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <strong>{{ auth()->user()->name }}</strong>
+                    <strong>{{ auth()->user()->name }} {{ auth()->user()->apellido }}</strong>
                   </a>
                   <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
