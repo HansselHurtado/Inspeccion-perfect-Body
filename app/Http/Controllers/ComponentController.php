@@ -48,7 +48,7 @@ class ComponentController extends Controller
                     ->Join('floors','rooms.floor_id','=','floors.floor_id')
                     ->select('components.component_id','components.name','components.descripcion','rooms.name as room','component_primes.name as prime','floors.name as floor')
                     ->orderBy('floors.floor_id')
-                    ->paginate(5);
+                    ->paginate(15);
 
                     
 

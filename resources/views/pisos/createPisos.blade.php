@@ -4,7 +4,7 @@
   @include('spiners/spiner')
   @include('estados/mensaje')
 
-  <div class="card shadow mb-4 ">
+  <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
       <h2 class="m-0 font-weight-bold text-primary">Crear Piso</h2>
       <a class="btn ml-auto m-0 font-weight-bold text-primary" href={{route('VerPisos')}} > ver piso</a>

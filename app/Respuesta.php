@@ -9,8 +9,8 @@ class Respuesta extends Model
     protected $table = "respuestas"; 
     protected $primaryKey = 'id_respuesta';
 
-    public function registro_pregunta()//funcion de relacion de unos a muchos
+    public function pregunta_respuesta()//funcion de relacion de unos a muchos
     {
-        return $this->hasMany('App\Registro_pregunta','id_respuesta');
+        return $this->hasMany('App\Pregunta_Respuesta','id_respuesta');
     }
 }

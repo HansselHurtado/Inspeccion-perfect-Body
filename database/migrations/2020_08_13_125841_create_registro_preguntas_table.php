@@ -13,14 +13,8 @@ class CreateRegistroPreguntasTable extends Migration
      */
     public function up()
     {
-        Schema::create('registro_preguntas', function (Blueprint $table) {
-            $table->increments('id_registro_pregunta');
-            
-            $table->unsignedInteger('id_pregunta'); 
-            $table->foreign('id_pregunta')->references('id_pregunta')->on('preguntas')->onDelete('cascade');
-            
-            $table->unsignedInteger('id_respuesta'); 
-            $table->foreign('id_respuesta')->references('id_respuesta')->on('respuestas')->onDelete('cascade');
+        Schema::create('registro_ronda_de_seguridad', function (Blueprint $table) {
+            $table->increments('id_registro_ronda_de_seguridad');            
             
             $table->unsignedInteger('room_id'); 
             $table->foreign('room_id')->references('room_id')->on('rooms')->onDelete('cascade');

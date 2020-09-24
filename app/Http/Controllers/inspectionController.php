@@ -18,6 +18,7 @@ use App\Registro_pregunta;
 use Carbon\Carbon;
 use App\ElementosReparados;
 use App\Mail\correoDeInspeccion;
+use App\Pregunta_Respuesta;
 use Illuminate\Support\Facades\Mail; 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\client;
@@ -124,13 +125,16 @@ class inspectionController extends Controller
     }
 
     public function enviarCorreos($state, $component_id, $room_id){
-        /*$room = Room::findOrfail($room_id);
+        $room = Room::findOrfail($room_id);
         $elemento = Component::findOrfail($component_id);
         $estado = State::findOrfail($state);
         if($state == 2 || $state == 5 || $state == 8){
             $mensaje = "Hay que revisar algunos pisos";
-            Mail::to('hansselhurtado@gmail.com')->send(new correoDeInspeccion($mensaje, $elemento->name, $room->name, $estado->name));
-        }*/
+            $users = User::where('role_id', 3)->get();
+            foreach ($users as $user) {
+                Mail::to("{$user->email}")->send(new correoDeInspeccion($mensaje, $elemento->name, $room->name, $estado->name));
+            }
+        }
     }
 
     public function cambiar_estado_elemento($elemento){
@@ -183,18 +187,21 @@ class inspectionController extends Controller
     }
 
     public function registro_de_preguntas(Request $request){
-        for ($i=1; $i<=$request->data_length; $i++){
             $registro_pregunta = new Registro_pregunta;
             $registro_pregunta->room_id = $request->room_id;
             $registro_pregunta->nombre_de_paciente = $request->name_paciente;
             $registro_pregunta->observaciones = $request->observaciones;
-            $registro_pregunta->id_pregunta = $request->input("pregunta$i");
-            $registro_pregunta->id_respuesta = $request->input("respuesta$i");
             $date = Carbon::now();
             $date = $date->format('Y-m-d');
             $registro_pregunta->fecha = $date;
             $registro_pregunta->save();
-        }
+            for ($i=1; $i<=$request->data_length; $i++){
+                $pregunta_respuesta = new Pregunta_Respuesta();
+                $pregunta_respuesta->id_registro_ronda_de_seguridad = $registro_pregunta->id_registro_ronda_de_seguridad;
+                $pregunta_respuesta->id_pregunta = $request->input("pregunta$i");
+                $pregunta_respuesta->id_respuesta = $request->input("respuesta$i");
+                $pregunta_respuesta->save();
+            }
         return redirect()->back();  
     }
 
@@ -202,18 +209,19 @@ class inspectionController extends Controller
     public function registro_de_respuesta(){
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
-        return $respuesta = $this->contar_resultado_preguntas($date);
+        return $this->contar_resultado_preguntas($date);
     }
 
 
     public function contar_resultado_preguntas($date){
-        for ($j=1; $j<=3; $j++){
-        }
-        return $respuesta = Registro_pregunta::where('fecha',$date)->where('id_pregunta',1)
+        
+       /* $respuesta = Registro_pregunta::where('fecha',$date)->where('id_pregunta',1)
                                             
-                                                ->where('id_respuesta',1)->count();
+                                                ->where('id_respuesta',1)->count();*/
                                             
+        
                                                
+        return view('inspection/registros_de_respuesta');        
 
         //return $suma  = Registro_pregunta::withCount(['fecha'])->where('fecha',$date)->get();
     }
@@ -386,6 +394,9 @@ class inspectionController extends Controller
     
     
     public function repararMalasBitacora(Request $request, $registro_mala){
+        
+        
+        
         $bitacora = new bitacora();
         $bitacora->bitacora = $request->bitacora;
         $bitacora->id_registro = $request->id_registro;

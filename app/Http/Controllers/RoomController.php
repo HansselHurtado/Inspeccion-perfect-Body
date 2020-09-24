@@ -57,7 +57,7 @@ class RoomController extends Controller
                     ->join('floors','rooms.floor_id','=','floors.floor_id')
                     ->select('rooms.room_id','rooms.name','rooms.descripcion','floors.name as floor')
                     ->orderBy('floors.floor_id')
-                    ->paginate(5);        
+                    ->paginate(10);        
 
         return view('habitaciones/verHabitaciones',compact('rooms'));
     }

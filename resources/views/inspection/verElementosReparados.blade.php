@@ -55,10 +55,10 @@
     @endif   
     
 
-    <!--Modal vitacora elemnto reparado -->
+    <!--Modal Bitacora elemnto reparado -->
     
     <div class="modal fade" id="vitacoraModal_reparado" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true">
-      <div class="modal-dialog" role="document">        
+      <div class="modal-dialog modal-lg " role="document">        
             <div class="modal-content">
                 <div  class="modal-header">
                     <h5 id="titulo_vitacora_Or_foto" class="modal-title"> </h5>
@@ -68,8 +68,7 @@
                 </div>
                 <div class="modal-body">
                     <div class=" modal-body btn float-left">
-                        <div id="textVitacora_reparado">
-                            
+                        <div id="textVitacora_reparado" class="d-flex flex-column">
                         </div>
                     </div>                                                                  
                 </div>       

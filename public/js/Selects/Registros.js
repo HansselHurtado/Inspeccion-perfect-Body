@@ -167,19 +167,31 @@ function BitacoraGenerada_elemento_reparado(id_registro){
             
                 data.forEach(elemento => {
                     if(elemento.bitacora !=null){
-                        document.getElementById('textVitacora_reparado').innerHTML += `
-                            <textarea  class="form-control" name="bitacora" id="" cols="50" rows="5" readonly>
-                            ${elemento.fecha} 
-                            ,${elemento.nombreUsers} dice:
-                            ${elemento.bitacora}
-                            </textarea> 
+                        document.getElementById('textVitacora_reparado').innerHTML += `                           
+                            
+                            <table class="table my-3">
+                                <thead class="thead-dark">
+                                    <tr>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Responsable</th>
+                                    <th scope="col">Bitacora</th>
+                                    </tr>
+                                </thead>                                
+                                <tbody>
+                                    <tr class="text-left">
+                                        <th scope="col">${elemento.fecha}</th>
+                                        <th scope="col">${elemento.nombreUsers} </th>
+                                        <th scope="col"> ${elemento.bitacora}</th>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
                         `;
                     }
                 });    
             }else{
                 document.getElementById('textVitacora_reparado').innerHTML = `
-                            <h4 class="modal-title"> ¡No se ha escrito ninguna vitacora!</h4>
-                            `;
+                        <h4 class="modal-title"> ¡No se ha escrito ninguna Bitacora!</h4>
+                        `;
             }                        
         },
         error:function(error){

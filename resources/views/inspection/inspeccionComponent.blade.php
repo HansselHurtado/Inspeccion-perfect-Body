@@ -21,7 +21,7 @@
                         <div class="card shadow p-3 mb-5 bg-white rounded d-sm-block" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">{{$component_prime->name}}</h5>
-                                <p class="card-text">aqui va la descripcion de los componenetes que cada uno tiene.</p>                               
+                                <p class="card-text">componente {{$component_prime->name}} clic aqui para inspeccionar</p>                               
                                 @if(!count($component_prime->component) == 0)
                                     @if($component_prime->component[0]->estado_de_inspeccion == 1)
                                         <button  value="$component_prime->component_prime_id" onclick="Component('{{$rooms->room_id}}','{{$component_prime->component_prime_id}}');" class=" btn-block btn btn-icon-split justify-content-start btn-primary"  

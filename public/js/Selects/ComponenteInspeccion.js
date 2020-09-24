@@ -47,7 +47,7 @@ function Component(room_id, component_prime_id ){
                                 <input style="display: none;" name="component_id${i}" value="${elemento.component_id}" type="text">
 
                                 <div class="radio">
-                                    <label><input required type="radio" name="state${i}" value="${estado.state_id}" > ${estado.name}</label>
+                                    <label><input required type="radio" name="state${i}" value="${estado.state_id}"> ${estado.name}</label>
                                 </div>                                              
                         `
                     });

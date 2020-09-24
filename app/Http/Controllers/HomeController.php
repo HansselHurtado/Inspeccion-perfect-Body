@@ -9,12 +9,13 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use App\Role;
 use DB;
+use App\Floor;
+use App\Registro;
+use App\Room;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
-
 
 class HomeController extends Controller
 {
@@ -35,8 +36,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
-        return view('home/index');
+        $pisos = Floor::all()->count();
+        $habiatciones = Room::all()->count();
+        $usuarios = User::all()->count();
+        $registros = Registro::all()->count();
+        return view('home/index',compact('pisos','habiatciones','usuarios','registros'));
     }
 
     public function registerUser(){       

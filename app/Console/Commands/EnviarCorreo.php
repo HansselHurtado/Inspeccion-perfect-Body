@@ -41,7 +41,7 @@ class EnviarCorreo extends Command
      */
     public function handle()
     {
-        $i=0;
+        /*$i=0;
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
         $registros = Registro::all();        
@@ -55,6 +55,6 @@ class EnviarCorreo extends Command
         if($i>0){
             $mensaje = "Hay que revisar algunos pisos";
             Mail::to('hansselhurtado@gmail.com')->send(new correoDeInspeccion($mensaje));
-        }
+        }*/
     }
 }
