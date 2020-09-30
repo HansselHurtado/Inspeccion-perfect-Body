@@ -16,7 +16,7 @@
 
   <link rel="stylesheet" href="{!! asset('css/sb-admin-2.min.css') !!}">
   <link rel="stylesheet" href="{!! asset('css/spiner.css') !!}">
-
+  <script src="{{ asset('js/direccion_ip.js') }}"></script> 
   <!-- Custom styles for this template-->
   
 

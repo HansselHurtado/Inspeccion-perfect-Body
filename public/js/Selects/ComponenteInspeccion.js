@@ -6,8 +6,10 @@ function Component(room_id, component_prime_id ){
 
     console.log(room_id, component_prime_id)//retornar en la consola el id de la habitacion y componente
 
+    console.log(ips);
+
     $.ajax({
-        url:`http://${ip}/api/habitaciones/${room_id}/inspeccionar/${component_prime_id}`,
+        url:`${ips}/api/habitaciones/${room_id}/inspeccionar/${component_prime_id}`,
         success:function(data){
             console.log(data)  
             document.getElementById('componente').innerHTML= ` Componente: ${data[0].name}

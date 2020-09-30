@@ -7,7 +7,7 @@ function EliminarHabitacion(room_id, room_name){
     document.getElementById('habitacion').innerHTML= room_name;
 
     var formulario = document.getElementById('formulario');
-    formulario.setAttribute('action', 'http://'+ip+'/Ver-Habitaciones/eliminar/'+room_id)
+    formulario.setAttribute('action', ips+'/Ver-Habitaciones/eliminar/'+room_id)
 }
 
 function EliminarPiso(floor_id, floor_name){
@@ -17,7 +17,7 @@ function EliminarPiso(floor_id, floor_name){
     document.getElementById('piso').innerHTML= floor_name;
 
     var formulario = document.getElementById('formulario');
-    formulario.setAttribute('action', 'http://'+ip+'/Ver-Piso/eliminar/'+floor_id)
+    formulario.setAttribute('action', ips+'/Ver-Piso/eliminar/'+floor_id)
 }
 
 function EliminarUser(user_id, user_name, user_apellido){
@@ -27,7 +27,6 @@ function EliminarUser(user_id, user_name, user_apellido){
     
     document.getElementById('titulo_user_profile').innerHTML=` ${user_name} ${user_apellido}`;
     var formulario = document.getElementById('formulario_eliminar_user');
-    formulario.setAttribute('action', 'http://'+ip+'/ver-usuarios/eliminar/'+user_id)
-    
+    formulario.setAttribute('action', ips+'/ver-usuarios/eliminar/'+user_id)
     
 }

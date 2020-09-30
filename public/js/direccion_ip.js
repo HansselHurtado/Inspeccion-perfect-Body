@@ -1,0 +1,1 @@
+var ips = window.location.protocol + "//" + window.location.host
